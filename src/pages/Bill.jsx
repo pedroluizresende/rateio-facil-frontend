@@ -41,7 +41,7 @@ function Bill() {
     }
   }, [orders]);
 
-  if (loading || !bill) return <CustomSpinner />;
+  if (loading || !bill || !user) return <CustomSpinner />;
 
   return (
     <main className={ styles.container }>
