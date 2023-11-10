@@ -14,7 +14,6 @@ import CustomSpinner from '../components/CustomSpinner';
 function Bill() {
   const { bill, getBill, loading, getOrders, orders,
     deleteBill } = useContext(BillContext);
-  const { getUser, user } = useContext(Context);
   const location = useLocation();
 
   const { formatDate } = useDateFormatter();
@@ -29,7 +28,6 @@ function Bill() {
     const billId = location.pathname.split('/')[3];
     getBill(billId);
     getOrders(billId);
-    getUser();
   }, [location]);
 
   useEffect(() => {
@@ -41,7 +39,7 @@ function Bill() {
     }
   }, [orders]);
 
-  if (loading || !bill || !user) return <CustomSpinner />;
+  if (loading || !bill) return <CustomSpinner />;
 
   return (
     <main className={ styles.container }>
