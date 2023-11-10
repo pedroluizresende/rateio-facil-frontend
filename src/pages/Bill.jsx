@@ -14,7 +14,7 @@ import CustomSpinner from '../components/CustomSpinner';
 function Bill() {
   const { bill, getBill, loading, getOrders, orders,
     deleteBill } = useContext(BillContext);
-  const { getUser } = useContext(Context);
+  const { getUser, user } = useContext(Context);
   const location = useLocation();
 
   const { formatDate } = useDateFormatter();
