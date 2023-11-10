@@ -13,4 +13,12 @@ export default defineConfig({
       SECRET_KEY: JSON.stringify(process.env.SECRET_KEY),
     },
   },
+  server: {
+    watch: {
+      usePolling: true,
+    },
+    host: true,
+    strictPort: true,
+    port: 5173,
+  },
 });

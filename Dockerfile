@@ -14,7 +14,7 @@ RUN npm install --production
 COPY . .
 
 # Expõe a porta 3000 (ou a porta que sua aplicação React está configurada para usar)
-EXPOSE 3000
+EXPOSE 5173
 
 # Comando para iniciar a aplicação em modo de produção
-CMD ["npm", "run", "build"]
+CMD ["npm", "run", "dev"]
