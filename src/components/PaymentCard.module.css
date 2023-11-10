@@ -1,0 +1,40 @@
+.card {
+  position: fixed;
+  top: 124px;
+  padding: 15px;
+  width: 90%;
+  border-radius: 11px;
+  padding: 30px 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f0f0f0;
+}
+
+.card h1 {
+  text-align: center;
+}
+
+.list {
+  padding: 15px 15px 0;
+  margin: 0 0 30px;
+  list-style: circle;
+  width: 100%;
+  background-color: white;
+  border-radius: 11px;
+}
+
+.listItem {
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+};
+
+.listItem p {
+  margin: 0;
+}
+
+.card button {
+  margin: 15px 0 0;
+}

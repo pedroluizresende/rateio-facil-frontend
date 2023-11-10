@@ -1,0 +1,18 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 15px 0;
+  height: 64px;
+  align-items: center;
+}
+
+.icon {
+  font-size: 32px;
+  color: rgba(85, 132, 122, 0.97);
+  z-index: 12;
+}

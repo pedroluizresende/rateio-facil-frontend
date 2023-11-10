@@ -1,0 +1,33 @@
+.container {
+  position: fixed;
+  z-index: 1;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0,0,0,0.5);
+}
+
+.container form {
+  border-radius: 0.5rem;
+  padding: 30px 15px;
+}
+.container input {
+  margin: 0;
+  margin-bottom: 15px;
+}
+
+
+.buttons {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.buttons button{
+  width: 45%;
+  margin: 0;
+}

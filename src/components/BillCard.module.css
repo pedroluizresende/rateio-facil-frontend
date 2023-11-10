@@ -1,0 +1,36 @@
+.card {
+  width: 100%;
+  display: flex;
+  margin-bottom: 15px;
+  justify-content: space-between;
+  flex-direction: column;
+  padding: 30px 15px;
+  border-radius: 11px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  transition: 0.5s;
+  border: 0.5px solid rgba(0, 0, 0, 0.1);
+  background-color: #f0f0f0;
+  align-items: center;
+}
+
+.card h1 {
+  font-size: 1.5rem;
+  padding: 0; 
+  text-align: center;
+  margin: 0 0 15px;
+}
+
+.card p {
+  margin: 15px 0 0;
+}
+
+.card:hover {
+  cursor: pointer;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  scale: 1.02;
+}
+
+
+.card:active {
+  box-shadow: none;
+}

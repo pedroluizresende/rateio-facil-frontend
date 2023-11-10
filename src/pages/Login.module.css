@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container > h1 {
+  font-size: 26px;
+}
+
+.container button {
+  margin-top: 15px;
+  margin-bottom: 30px;
+}
+.container form h1 {
+  margin-bottom: 30px;
+}
+
+.sucess {
+  color: rgba(85, 132, 122, 0.97)!important;
+}

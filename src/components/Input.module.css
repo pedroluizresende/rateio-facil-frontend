@@ -1,0 +1,31 @@
+.inputContainer {
+  margin: 0;
+  width: 90%;
+  padding: 0;
+  position: relative;
+}
+
+.input {
+  padding: 15px;
+  border-radius: 11px;
+  border: none;
+  width: 100%;
+  font-size: 13px;
+  margin-bottom: 15px;
+}
+
+
+
+.inputContainer {
+  position: relative;
+}
+
+.inputContainer svg {
+  position: absolute;
+  top: 25px;
+  right: 10px;
+  transform: translateY(-50%);
+  font-size: 1.25rem;
+  color: rgba(85, 132, 122, 0.97);
+  border: none;
+}

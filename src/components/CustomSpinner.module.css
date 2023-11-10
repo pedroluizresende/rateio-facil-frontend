@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.spinner {
+  height: 120px;
+  width: 120px;
+  border: 10px solid rgba(85, 132, 122, 0.726);
+  border-radius: 100%;
+  border-right: white 10px solid;
+  animation: sping 1s linear infinite;
+}
+
+@keyframes sping {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
