@@ -7,7 +7,6 @@ dotenv.config();
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/rateio-facil-frontend/',
   define: {
     'process.env': {
       REACT_APP_API_URL: JSON.stringify(process.env.REACT_APP_API_URL),
