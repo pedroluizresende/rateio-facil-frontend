@@ -7,8 +7,8 @@ WORKDIR /app
 # Copia o arquivo package.json e package-lock.json para o diretório de trabalho
 COPY package*.json ./
 
-# Instala as dependências, incluindo o Vite globalmente
-RUN npm install -g vite && npm install --production
+# Instala as dependências
+RUN npm install --production
 
 # Copia os arquivos do código-fonte para o diretório de trabalho
 COPY . .
