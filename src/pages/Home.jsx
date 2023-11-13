@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import Context from '../context/Context';
 import styles from './Home.module.css';
 import Button from '../components/Button';

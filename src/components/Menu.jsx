@@ -1,18 +1,12 @@
 import React, { useContext } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { BiLogOut } from 'react-icons/bi';
 import PropTypes from 'prop-types';
 import styles from './Menu.module.css';
 import Context from '../context/Context';
 
 function Menu({ onClick }) {
-  const navigate = useNavigate();
-
   const { logout } = useContext(Context);
-  const handleLogout = () => {
-    localStorage.clear();
-    navigate('/');
-  };
 
   const { pathname } = useLocation();
 

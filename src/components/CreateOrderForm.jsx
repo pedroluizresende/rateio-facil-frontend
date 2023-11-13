@@ -7,7 +7,6 @@ import styles from './CreateOrderForm.module.css';
 import Checkbox from './Checkbox';
 import Select from './Select';
 import BillContext from '../context/BillContext';
-import Context from '../context/Context';
 import useFriendFormatter from '../hooks/useFriendFormatter';
 import SplitFriendsList from './SplitFriendsList';
 import useValidation from '../hooks/useValidation';

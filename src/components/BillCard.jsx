@@ -5,7 +5,6 @@ import styles from './BillCard.module.css';
 import { getInLocalStorage } from '../utils/localStorage';
 import { decrypt } from '../utils/crypto';
 import useDateFormatter from '../hooks/useDateFormatter';
-import Bill from '../pages/Bill';
 
 function BillCard({ bill }) {
   const navigate = useNavigate();
