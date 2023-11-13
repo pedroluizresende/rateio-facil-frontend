@@ -36,15 +36,15 @@ function Bill() {
     if (bill) {
       getUser(bill.userId);
     }
-  }, [bill]);
-
-  useEffect(() => {
-    setFriends([...getFriendsName(orders)]);
+    setFriends([...getFriendsName(orders)], user.name);
     if (orders.length > 0) {
       setDisabled(false);
     } else {
       setDisabled(true);
     }
+  }, [bill]);
+
+  useEffect(() => {
   }, [orders]);
 
   if (loading || !bill) return <CustomSpinner />;
