@@ -87,9 +87,6 @@ function BillProvider({ children }) {
 
   const addOrder = async (billId, order) => {
     setLoading(true);
-
-    console.log('-------------------------------------------');
-    console.log('addOrder: ', order);
     await fetchWithToken(`${apiUrl}/bills/${billId}/items`, 'post', order);
     setError(null);
     sucess('Pedido adicionado com sucesso!');
@@ -174,8 +171,6 @@ function BillProvider({ children }) {
 
   const addSplitOrder = async (billId, order, friends) => {
     setLoading(true);
-    console.log('-------------------------------------------');
-    console.log('splitOrder friends: ', friends);
     try {
       const body = {
         friends,

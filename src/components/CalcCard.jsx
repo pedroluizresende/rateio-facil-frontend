@@ -49,11 +49,20 @@ function CalcCard({ calculation }) {
 
 CalcCard.propTypes = {
   calculation: PropTypes.shape({
-    establishment: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
-    taxService: PropTypes.string.isRequired,
-    total: PropTypes.string.isRequired,
-  }).isRequired,
+    establishment: PropTypes.string,
+    value: PropTypes.number,
+    taxService: PropTypes.number,
+    total: PropTypes.number,
+  }),
+};
+
+CalcCard.defaultProps = {
+  calculation: {
+    establishment: '',
+    value: 0,
+    taxService: 0,
+    total: 0,
+  },
 };
 
 export default CalcCard;

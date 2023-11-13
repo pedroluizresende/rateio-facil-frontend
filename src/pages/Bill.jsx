@@ -36,7 +36,7 @@ function Bill() {
     if (bill) {
       getUser(bill.userId);
     }
-    setFriends([...getFriendsName(orders)], user.name);
+    setFriends([...getFriendsName(orders)]);
     if (orders.length > 0) {
       setDisabled(false);
     } else {

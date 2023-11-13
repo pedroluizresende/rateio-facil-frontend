@@ -1,8 +1,6 @@
 function useFriendFormatter() {
   const getFriendsName = (orders) => {
-    const filterArray = orders.filter((o) => o.friend !== user.name);
-
-    const friendArr = filterArray.map((o) => o.friend);
+    const friendArr = orders.map((o) => o.friend);
     const uniqueFriends = [...new Set(friendArr)];
 
     return uniqueFriends;

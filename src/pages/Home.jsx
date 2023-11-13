@@ -14,7 +14,6 @@ function Home() {
 
   useEffect(() => {
     getUser();
-    console.log(user);
   }, []);
 
   if (loading || !user.id) {
