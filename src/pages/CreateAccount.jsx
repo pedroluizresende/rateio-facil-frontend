@@ -47,8 +47,6 @@ function CreateAccount() {
     }
   }, [account]);
 
-  if (loading) return (<CustomSpinner />);
-
   return (
     <main className={ styles.container }>
       <h1>Cadastre-se para poder utilizar a plataforma!</h1>
