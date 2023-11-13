@@ -1,16 +1,18 @@
-import React from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { useLocation } from 'react-router-dom';
 import Button from '../components/Button';
 import styles from './ConfirmMessage.module.css';
+import Context from '../context/Context';
 
 function ConfirmMessage() {
-  const navigate = useNavigate();
   const location = useLocation();
 
   const { email, name } = location.state || {
     email: '',
     name: '',
   };
+
+  const { logout } = useContext(Context);
   return (
     <main className={ styles.container }>
       <div className={ styles.confirmMessage }>
@@ -24,7 +26,9 @@ function ConfirmMessage() {
           Por favor, confirme seu email para poder utilizar a plataforma.
         </p>
         <Button
-          onClick={ () => navigate('/') }
+          onClick={ () => {
+            logout();
+          } }
         >
           Ir para a página de login
         </Button>

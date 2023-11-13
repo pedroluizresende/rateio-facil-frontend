@@ -12,9 +12,8 @@ import useFriendFormatter from '../hooks/useFriendFormatter';
 import SplitFriendsList from './SplitFriendsList';
 import useValidation from '../hooks/useValidation';
 
-function CreateOrderForm({ onClick, billId }) {
+function CreateOrderForm({ onClick, billId, user }) {
   const [newFriend, setNewFriend] = useState(false);
-  const { user } = useContext(Context);
   const [order, setOrder] = useState({
     friend: user.name,
     description: '',
@@ -154,6 +153,9 @@ function CreateOrderForm({ onClick, billId }) {
 CreateOrderForm.propTypes = {
   onClick: PropTypes.func.isRequired,
   billId: PropTypes.number.isRequired,
+  user: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default CreateOrderForm;

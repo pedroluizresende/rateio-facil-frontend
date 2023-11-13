@@ -89,7 +89,7 @@ function BillProvider({ children }) {
     setLoading(true);
 
     console.log('-------------------------------------------');
-    console.log('addOrder: ', billId);
+    console.log('addOrder: ', order);
     await fetchWithToken(`${apiUrl}/bills/${billId}/items`, 'post', order);
     setError(null);
     sucess('Pedido adicionado com sucesso!');

@@ -1,10 +1,12 @@
 import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Context from '../context/Context';
 import styles from './Home.module.css';
 import Button from '../components/Button';
 import CreateBillForm from '../components/CreateBillForm';
 import Header from '../components/Header';
 import CustomSpinner from '../components/CustomSpinner';
+import ConfirmMessage from './ConfirmMessage';
 
 function Home() {
   const { loading, getUser, user } = useContext(Context);
@@ -12,12 +14,14 @@ function Home() {
 
   useEffect(() => {
     getUser();
+    console.log(user);
   }, []);
 
   if (loading || !user.id) {
     return <CustomSpinner />;
   }
 
+  if (user.status === 'NOT_CONFIRMED') return (<ConfirmMessage />);
   return (
     <main className={ styles.container }>
       <Header />

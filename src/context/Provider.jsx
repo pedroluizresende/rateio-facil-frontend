@@ -32,6 +32,7 @@ function Provider({ children }) {
 
   const login = async (username, password) => {
     setLoading(true);
+    console.log({ username, password });
     try {
       const response = await axios.post(`${apiUrl}/auth/login`, {
         username,
@@ -149,9 +150,14 @@ function Provider({ children }) {
 
   const confirmUser = async (tokenConfirm) => {
     try {
-      const response = await axios.post(`${apiUrl}/users/confirm`, { tokenConfirm });
+      const config = {
+        headers: {
+          Authorization: `Bearer ${tokenConfirm}`,
+        },
+      };
+      const response = await axios.put(`${apiUrl}/users/confirmation`, {}, config);
       setSucess(response.data.message);
-      navigate('/');
+      setError(null);
     } catch (e) {
       setSucess(null);
       handleApiError(e, setError, navigate);

@@ -14,6 +14,8 @@ import CustomSpinner from '../components/CustomSpinner';
 function Bill() {
   const { bill, getBill, loading, getOrders, orders,
     deleteBill } = useContext(BillContext);
+
+  const { getUser, user } = useContext(Context);
   const location = useLocation();
 
   const { formatDate } = useDateFormatter();
@@ -29,6 +31,12 @@ function Bill() {
     getBill(billId);
     getOrders(billId);
   }, [location]);
+
+  useEffect(() => {
+    if (bill) {
+      getUser(bill.userId);
+    }
+  }, [bill]);
 
   useEffect(() => {
     setFriends([...getFriendsName(orders)]);
@@ -90,6 +98,7 @@ function Bill() {
 
       {
         addOrder && <CreateOrderForm
+          user={ user }
           billId={ bill.id }
           onClick={ () => setAddOrder(!addOrder) }
         />
