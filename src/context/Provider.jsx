@@ -32,7 +32,6 @@ function Provider({ children }) {
 
   const login = async (username, password) => {
     setLoading(true);
-    console.log({ username, password });
     try {
       const response = await axios.post(`${apiUrl}/auth/login`, {
         username,
