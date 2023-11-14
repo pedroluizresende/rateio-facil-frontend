@@ -139,7 +139,7 @@ function CreateOrderForm({ onClick, billId, user }) {
             type="submit"
             disabled={ isDisabled }
           >
-            Iniciar
+            Adicionar
 
           </Button>
           <Button type="reset" onClick={ onClick }>Cancelar</Button>
