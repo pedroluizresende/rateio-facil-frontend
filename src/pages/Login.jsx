@@ -8,6 +8,7 @@ import styles from './Login.module.css';
 import Context from '../context/Context';
 import Link from '../components/Link';
 import { getInLocalStorage } from '../utils/localStorage';
+import Footer from '../components/Footer';
 
 function Login() {
   const [username, setUsername] = useState('');
@@ -70,6 +71,7 @@ function Login() {
           <Link to="criar-conta">Cadastre-se</Link>
         </p>
       </Form>
+      <Footer />
     </main>
   );
 }

@@ -7,6 +7,7 @@ import styles from './CreateAccount.module.css';
 import useValidation from '../hooks/useValidation';
 import Context from '../context/Context';
 import CustomSpinner from '../components/CustomSpinner';
+import Footer from '../components/Footer';
 
 function CreateAccount() {
   const navigate = useNavigate();

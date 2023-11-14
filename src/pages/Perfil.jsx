@@ -5,6 +5,7 @@ import styles from './Perfil.module.css';
 import Header from '../components/Header';
 import EditUser from '../components/EditUser';
 import CustomSpinner from '../components/CustomSpinner';
+import Footer from '../components/Footer';
 
 function Perfil() {
   const { user, getUser, loading } = useContext(Context);
@@ -43,6 +44,7 @@ function Perfil() {
             <EditUser onClick={ () => setEdit(!edit) } user={ user } />
           )
         }
+        <Footer />
       </main>
     );
   }

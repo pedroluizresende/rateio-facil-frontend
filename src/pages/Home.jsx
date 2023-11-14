@@ -6,6 +6,7 @@ import CreateBillForm from '../components/CreateBillForm';
 import Header from '../components/Header';
 import CustomSpinner from '../components/CustomSpinner';
 import ConfirmMessage from './ConfirmMessage';
+import Footer from '../components/Footer';
 
 function Home() {
   const { loading, getUser, user } = useContext(Context);
@@ -29,6 +30,7 @@ function Home() {
       {
         openBill && <CreateBillForm onClick={ () => setOpenbill(!openBill) } />
       }
+      <Footer />
     </main>
   );
 }
