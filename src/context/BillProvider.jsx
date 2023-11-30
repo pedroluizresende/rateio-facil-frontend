@@ -87,9 +87,34 @@ function BillProvider({ children }) {
 
   const addOrder = async (billId, order) => {
     setLoading(true);
-    await fetchWithToken(`${apiUrl}/bills/${billId}/items`, 'post', order);
-    setError(null);
-    sucess('Pedido adicionado com sucesso!');
+    try {
+      await fetchWithToken(`${apiUrl}/bills/${billId}/items`, 'post', order);
+
+      setError(null);
+      sucess('Pedido adicionado com sucesso!');
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setLoadingTrue();
+    }
+  };
+
+  const addSplitOrder = async (billId, order, friends) => {
+    setLoading(true);
+    try {
+      const body = {
+        friends,
+        description: `${order.description} (dividido)`,
+        value: order.value,
+      };
+      await fetchWithToken(`${apiUrl}/bills/${billId}/items/split`, 'post', body);
+      setError(null);
+    } catch (e) {
+      localStorage.clear();
+      navigate('/');
+    } finally {
+      setLoadingTrue();
+    }
   };
 
   const getAllBill = async () => {
@@ -161,24 +186,6 @@ function BillProvider({ children }) {
     try {
       await fetchWithToken(`${apiUrl}/users/${decryptedId}/bills/${billId}`, 'delete');
       navigate('/home');
-    } catch (e) {
-      localStorage.clear();
-      navigate('/');
-    } finally {
-      setLoadingTrue();
-    }
-  };
-
-  const addSplitOrder = async (billId, order, friends) => {
-    setLoading(true);
-    try {
-      const body = {
-        friends,
-        description: `${order.description} (dividido)`,
-        value: order.value,
-      };
-      await fetchWithToken(`${apiUrl}/bills/${billId}/items/split`, 'post', body);
-      setError(null);
     } catch (e) {
       localStorage.clear();
       navigate('/');
