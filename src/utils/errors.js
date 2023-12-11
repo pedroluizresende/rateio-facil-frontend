@@ -9,10 +9,12 @@ const handleApiError = (error, setError, navigate) => {
       navigate('/');
     }
     if (error.response.status === NOT_FOUND) {
-      // navigate('/404');
+      navigate('/404');
     }
   } else {
     setError('Ocorreu um erro inesperado ao se comunicar com o servidor.');
+    localStorage.clear();
+    navigate('/');
   }
 };
 

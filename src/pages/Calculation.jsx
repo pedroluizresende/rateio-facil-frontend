@@ -33,6 +33,7 @@ function Calculation() {
       <Checkbox
         text="esta correto?"
         onChange={ () => setIsCorrect(!isCorrect) }
+        checked={ isCorrect }
       />
 
       <Button

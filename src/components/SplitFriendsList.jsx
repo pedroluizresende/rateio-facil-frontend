@@ -14,6 +14,7 @@ function SplitFriendsList({ friends, setSplitFriend }) {
       isChecked: false,
     }
   )));
+  console.log(friends);
 
   const handleChange = (e) => {
     if (e.target.checked) {

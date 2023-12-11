@@ -84,6 +84,7 @@ function CreateOrderForm({ onClick, billId, user }) {
             setNewFriend(e.target.checked);
           } }
           value="newFriend"
+          checked={ newFriend }
         />
 
         { newFriend ? (
@@ -121,12 +122,15 @@ function CreateOrderForm({ onClick, billId, user }) {
           id="checkSplit"
           onChange={ (e) => setSplit(e.target.checked) }
           value="split"
+          checked={ split }
         />
         {
           split && (
             <SplitFriendsList
               setSplitFriend={ setSplitFriend }
-              friends={ friends.filter((friend) => friend !== order.friend) }
+              friends={ user.name === order.friend
+                ? friends.filter((friend) => friend !== user.name)
+                : [user.name, ...friends.filter((friend) => friend !== user.name)] }
             />
           )
         }
