@@ -9,10 +9,12 @@ import Context from '../context/Context';
 import Link from '../components/Link';
 import { getInLocalStorage } from '../utils/localStorage';
 import Footer from '../components/Footer';
+import Checkbox from '../components/Checkbox';
 
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [remember, setRemember] = useState(false);
   const MIN_PASSWORD_LENGTH = 6;
   const disabled = !password || password.length < MIN_PASSWORD_LENGTH;
 
@@ -38,7 +40,7 @@ function Login() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    login(username, password);
+    login(username, password, remember);
   };
 
   return (
@@ -63,6 +65,15 @@ function Login() {
         />
         {error && <span className={ styles.error }>{error}</span>}
         {sucess && <span className={ styles.sucess }>{sucess}</span>}
+        <Checkbox
+          text="Lembrar-me"
+          id="checkRemember"
+          value="remember"
+          onChange={ (e) => {
+            setRemember(e.target.checked);
+          } }
+          checked={ remember }
+        />
         <Button type="submit" disabled={ disabled }>Sign In</Button>
 
         <p>

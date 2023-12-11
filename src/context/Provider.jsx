@@ -30,12 +30,13 @@ function Provider({ children }) {
 
   const TIME_OUT = 1000;
 
-  const login = async (username, password) => {
+  const login = async (username, password, remember) => {
     setLoading(true);
     try {
       const response = await axios.post(`${apiUrl}/auth/login`, {
         username,
         password,
+        remember,
       });
 
       const tokenApi = response.data.data.token;
