@@ -5,11 +5,14 @@ import Button from './Button';
 import Form from './Form';
 import InputImage from './InputImage';
 import useUpload from '../hooks/useUpLoad';
+import Camera from './Camera';
 
 function TakePhoto({ setTakePhoto }) {
   const [nameImage, setNameImage] = useState('');
   const [selectedImage, setSelectedImage] = useState(null);
   const [isDisabled, setIsDisabled] = useState(true);
+  const [openCamera, setOpenCamera] = useState(false);
+  const [currentImage, setCurrentImage] = useState(null);
 
   const { handleUpload, imageUrl } = useUpload();
 
@@ -21,40 +24,29 @@ function TakePhoto({ setTakePhoto }) {
     }
   }, [selectedImage]);
 
-  // const startCamera = async () => {
-  //   try {
-  //     const mediaStream = await navigator.mediaDevices.getUserMedia({ video: true });
-
-  //     setStream(mediaStream);
-  //   } catch (error) {}
-  // };
-
-  // const stopCamera = () => {
-  //   if (stream) {
-  //     stream.getTracks().forEach((track) => track.stop());
-  //     setStream(null);
-  //   }
-  // };
-
-  // const handleCaptureClick = () => {
-  //   startCamera();
-  // };
-
-  const handleFileInputChange = (e) => {
-    const file = e.target.files[0];
-    console.log(file);
-
+  const transformFile = (file) => {
     if (file) {
       const selectedImageUrl = URL.createObjectURL(file);
       setSelectedImage(selectedImageUrl);
       setNameImage(file.name);
+      setCurrentImage(file);
     }
   };
 
-  const handleSubmit = (e) => {
-    handleUpload(e);
+  const handleFileInputChange = (e) => {
+    const file = e.target.files[0];
+
+    transformFile(file);
+  };
+
+  const handleSubmit = () => {
+    handleUpload(currentImage);
     setTakePhoto(false);
   };
+
+  useEffect(() => {
+    transformFile(currentImage);
+  }, [currentImage]);
 
   return (
     <main className={ styles.container }>
@@ -63,6 +55,17 @@ function TakePhoto({ setTakePhoto }) {
           handleFileInputChange={ handleFileInputChange }
           text={ selectedImage ? 'Alterar imagem' : 'Adicionar imagem' }
         />
+
+        <Button type="button" onClick={ () => setOpenCamera(true) }>Tirar Foto </Button>
+
+        {
+          openCamera && (
+            <Camera
+              setOpenCamera={ setOpenCamera }
+              setCurrentImage={ setCurrentImage }
+            />
+          )
+        }
 
         {
 
