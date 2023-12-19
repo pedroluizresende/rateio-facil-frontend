@@ -13,7 +13,7 @@ import CustomSpinner from '../components/CustomSpinner';
 
 function Bill() {
   const { bill, getBill, loading, getOrders, orders,
-    deleteBill } = useContext(BillContext);
+    deleteBill, sucess } = useContext(BillContext);
 
   const { getUser, user } = useContext(Context);
   const location = useLocation();
@@ -72,6 +72,8 @@ function Bill() {
         {bill.status === 'CLOSED' && ' (Conta finalizada)'}
       </h3>
 
+      {sucess && <span className={ styles.sucess }>{sucess}</span>}
+
       {
         bill.status === 'OPEN'
         && (
@@ -100,8 +102,14 @@ function Bill() {
         addOrder && <CreateOrderForm
           user={ user }
           billId={ bill.id }
-          onClick={ () => setAddOrder(!addOrder) }
+          onClick={ setAddOrder }
         />
+      }
+
+      {
+        bill.imgUrl && (
+          <img className={ styles.img } src={ bill.imgUrl } alt="Imagem da conta" />
+        )
       }
     </main>
   );

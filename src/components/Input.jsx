@@ -5,7 +5,7 @@ import styles from './Input.module.css';
 
 function Input({
   placeholder, type = 'text',
-  value, onChange, name = '',
+  value, onChange, name = '', inputRef,
 }) {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -24,6 +24,8 @@ function Input({
         value={ value }
         onChange={ onChange }
         name={ name }
+        accept={ type === 'file' ? 'image/*' : '' }
+        ref={ inputRef }
       />
       {
         type === 'password' && (
@@ -41,7 +43,13 @@ Input.propTypes = {
   type: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
+  inputRef: PropTypes.func,
+};
+
+Input.defaultProps = {
+  name: '',
+  inputRef: () => {},
 };
 
 export default Input;
