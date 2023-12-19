@@ -7,6 +7,7 @@ import InputImage from './InputImage';
 import useUpload from '../hooks/useUpLoad';
 
 function TakePhoto({ setTakePhoto }) {
+  const [nameImage, setNameImage] = useState('');
   const [selectedImage, setSelectedImage] = useState(null);
   const [isDisabled, setIsDisabled] = useState(true);
 
@@ -41,10 +42,12 @@ function TakePhoto({ setTakePhoto }) {
 
   const handleFileInputChange = (e) => {
     const file = e.target.files[0];
+    console.log(file);
 
     if (file) {
       const selectedImageUrl = URL.createObjectURL(file);
       setSelectedImage(selectedImageUrl);
+      setNameImage(file.name);
     }
   };
 
@@ -58,23 +61,28 @@ function TakePhoto({ setTakePhoto }) {
       <Form onSubmit={ handleSubmit }>
         <InputImage
           handleFileInputChange={ handleFileInputChange }
+          text={ selectedImage ? 'Alterar imagem' : 'Adicionar imagem' }
         />
 
         {
-          imageUrl.length === 0 && selectedImage && (
-            <img src={ selectedImage } alt="Imagem" width="200px" />
+
+          imageUrl.length === 0 && selectedImage
+          && (
+            <div>
+              <img src={ selectedImage } alt="Imagem" width="200px" />
+              <p>{nameImage}</p>
+            </div>
           )
         }
-        {
-          imageUrl && <img src={ imageUrl } alt="Imagem" width="200px" />
-        }
 
-        <Button type="submit" disabled={ isDisabled }>
-          Enviar
-        </Button>
-        <Button type="reset" onClick={ () => setTakePhoto(false) }>
-          cancelar
-        </Button>
+        <section className={ styles.buttons }>
+          <Button type="submit" disabled={ isDisabled }>
+            Enviar
+          </Button>
+          <Button type="reset" onClick={ () => setTakePhoto(false) }>
+            cancelar
+          </Button>
+        </section>
       </Form>
     </main>
   );

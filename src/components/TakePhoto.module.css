@@ -13,3 +13,22 @@
   margin-top: 15px;
   width: 100%;
 }
+
+.buttons {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.buttons button{
+  width: 45%;
+  margin: 0;
+}
+
+.container p {
+  font-size: 0.8rem;
+  margin-top: 5px;
+  margin-bottom: 0;
+}
