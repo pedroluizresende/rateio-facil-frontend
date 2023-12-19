@@ -6,8 +6,6 @@ import Input from '../components/Input';
 import styles from './CreateAccount.module.css';
 import useValidation from '../hooks/useValidation';
 import Context from '../context/Context';
-import CustomSpinner from '../components/CustomSpinner';
-import Footer from '../components/Footer';
 
 function CreateAccount() {
   const navigate = useNavigate();
@@ -23,7 +21,7 @@ function CreateAccount() {
   const [isDisabled, setIsDisabled] = useState(true);
 
   const { validateNewAccount } = useValidation();
-  const { error, createUser, loading } = useContext(Context);
+  const { error, createUser } = useContext(Context);
 
   const handleChanges = ({ target }) => {
     const { name, value } = target;

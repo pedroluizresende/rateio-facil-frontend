@@ -1,0 +1,32 @@
+.container {
+  width: 100vw;
+  height: 100vh;
+  position: fixed ;
+  margin: 0;
+  z-index: 100;
+  background: none;
+  top: 0;
+}
+
+.cameraPreview {
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  z-index: 101  ;
+}
+
+.tahePhotoBtn {
+  position: fixed;
+  z-index: 102;
+  bottom: 0;
+  background: none;
+  border: none;
+  font-size: 60px;
+  color:  rgba(85, 132, 122, 0.97);
+  
+}
+
+.takePhotoBtn:active {
+  color:rgba(255, 71, 71, 0.97);
+}

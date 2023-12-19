@@ -8,13 +8,16 @@ import BackButton from '../components/BackButton';
 import PaymentCard from '../components/PaymentCard';
 import Button from '../components/Button';
 import CustomSpinner from '../components/CustomSpinner';
+import TakePhoto from '../components/TakePhoto';
 
 function Payment() {
   const [friends, setFriends] = useState([]);
-  const { orders, getOrders, finishBill, loading } = useContext(BillContext);
+  const { orders, getOrders, finishBill,
+    loading } = useContext(BillContext);
   const [currIndex, setCurrIndex] = useState(0);
   const [paidFriends, setPaidFriends] = useState([]);
   const [finished, setFinished] = useState(false);
+  const [takePhoto, setTakePhoto] = useState(false);
 
   const navigate = useNavigate();
 
@@ -85,6 +88,27 @@ function Payment() {
             <div>
               <h2>Conta paga!</h2>
               <span>Os valores podem estar diferentes, confira!</span>
+
+              {
+                !takePhoto && (
+                  <p>
+                    Deseja registrar este momento com uma foto?
+                    <button
+                      className={ styles.takePhotoBtn }
+                      type="button"
+                      onClick={ () => setTakePhoto(true) }
+                    >
+                      clique aqui
+                    </button>
+                  </p>
+                )
+              }
+
+              {
+                takePhoto && (
+                  <TakePhoto setTakePhoto={ setTakePhoto } />
+                )
+              }
               <Button
                 className={ styles.finishButton }
                 type="button"

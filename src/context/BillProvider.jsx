@@ -38,7 +38,9 @@ function BillProvider({ children }) {
       },
     };
     try {
+      setSucess(null);
       const response = await apiRequest(url, method, data, config);
+      setError(null);
       return response.data;
     } catch (e) {
       handleApiError(e, setError, navigate);
@@ -87,111 +89,70 @@ function BillProvider({ children }) {
 
   const addOrder = async (billId, order) => {
     setLoading(true);
-    try {
-      await fetchWithToken(`${apiUrl}/bills/${billId}/items`, 'post', order);
+    await fetchWithToken(`${apiUrl}/bills/${billId}/items`, 'post', order);
 
-      setError(null);
-      sucess('Pedido adicionado com sucesso!');
-    } catch (e) {
-      console.log(e);
-    } finally {
-      setLoadingTrue();
-    }
+    setError(null);
+    setSucess('Pedido adicionado com sucesso!');
   };
 
   const addSplitOrder = async (billId, order, friends) => {
     setLoading(true);
-    try {
-      const body = {
-        friends,
-        description: `${order.description} (dividido)`,
-        value: order.value,
-      };
-      await fetchWithToken(`${apiUrl}/bills/${billId}/items/split`, 'post', body);
-      setError(null);
-    } catch (e) {
-      localStorage.clear();
-      navigate('/');
-    } finally {
-      setLoadingTrue();
-    }
+    const body = {
+      friends,
+      description: `${order.description} (dividido)`,
+      value: order.value,
+    };
+    await fetchWithToken(`${apiUrl}/bills/${billId}/items/split`, 'post', body);
+    setError(null);
+    setSucess('Pedido adicionado com sucesso!');
   };
 
   const getAllBill = async () => {
     setLoading(true);
     const id = getInLocalStorage('id');
     const decryptedId = decrypt(id);
-    try {
-      const data = await fetchWithToken(`${apiUrl}/users/${decryptedId}/bills`, 'get');
-      setAllBills(data);
-      setError(null);
-    } catch {
-      localStorage.clear();
-      navigate('/');
-    } finally {
-      setLoadingTrue();
-    }
+    const data = await fetchWithToken(`${apiUrl}/users/${decryptedId}/bills`, 'get');
+    setAllBills(data);
+    setError(null);
   };
 
   const getFriendConsummation = async (billId, friendName) => {
     setLoading(true);
-    try {
-      const encodedFriendName = encodeURI(friendName);
-      const data = await fetchWithToken(
-        `${apiUrl}/bills/${billId}/friendConsumption?friend=${encodedFriendName}`,
-        'get',
-      );
-      return data;
-    } catch (e) {
-      localStorage.clear();
-      navigate('/');
-    } finally {
-      setLoadingTrue();
-    }
+    const encodedFriendName = encodeURI(friendName);
+    const data = await fetchWithToken(
+      `${apiUrl}/bills/${billId}/friendConsumption?friend=${encodedFriendName}`,
+      'get',
+    );
+    return data;
   };
 
   const getCalculation = async (billId) => {
     setLoading(true);
-    try {
-      const data = await fetchWithToken(`${apiUrl}/bills/${billId}/calculate`, 'get');
-      setCalculation(data);
-      setError(null);
-    } catch (e) {
-      localStorage.clear();
-      navigate('/');
-    } finally {
-      setLoadingTrue();
-    }
+    const data = await fetchWithToken(`${apiUrl}/bills/${billId}/calculate`, 'get');
+    setCalculation(data);
+    setError(null);
   };
 
   const finishBill = async (billId) => {
     setLoading(true);
-    try {
-      await fetchWithToken(`${apiUrl}/bills/${billId}/finish`, 'put');
-    } catch (e) {
-      setError(e.response.data.message);
-      localStorage.clear();
-      navigate('/');
-    } finally {
-      setTimeout(() => {
-        setLoading(false);
-      }, TIME_OUT);
-    }
+    await fetchWithToken(`${apiUrl}/bills/${billId}/finish`, 'put');
   };
 
   const deleteBill = async (billId) => {
     setLoading(true);
     const id = getInLocalStorage('id');
     const decryptedId = decrypt(id);
-    try {
-      await fetchWithToken(`${apiUrl}/users/${decryptedId}/bills/${billId}`, 'delete');
-      navigate('/home');
-    } catch (e) {
-      localStorage.clear();
-      navigate('/');
-    } finally {
-      setLoadingTrue();
-    }
+    await fetchWithToken(`${apiUrl}/users/${decryptedId}/bills/${billId}`, 'delete');
+    navigate('/home');
+  };
+
+  const addImg = async (imgUrl) => {
+    setLoading(true);
+    setSucess(null);
+    const response = await
+    fetchWithToken(`${apiUrl}/bills/${bill.id}/imgUrl`, 'put', { imgUrl });
+    setSucess(response.data.message);
+    setBill(response.data.data);
   };
 
   const value = useMemo(() => ({
@@ -212,7 +173,9 @@ function BillProvider({ children }) {
     deleteBill,
     addSplitOrder,
     setError,
-  }), [loading, bill, error, orders, allBills, calculation]);
+    addImg,
+    sucess,
+  }), [loading, bill, error, orders, allBills, calculation, sucess]);
 
   return (
     <BillContext.Provider value={ value }>

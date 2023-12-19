@@ -34,7 +34,7 @@ function CreateOrderForm({ onClick, billId, user }) {
     } else {
       await addOrder(billId, order);
     }
-    onClick();
+    onClick(false);
     window.location.reload();
   };
 
@@ -56,7 +56,7 @@ function CreateOrderForm({ onClick, billId, user }) {
   }, [orders, newFriend]);
 
   const handleKeyClick = (e) => {
-    if (e.code === 'Escape') onClick();
+    if (e.code === 'Escape') onClick(false);
   };
 
   const handleChange = (e) => {
@@ -146,7 +146,7 @@ function CreateOrderForm({ onClick, billId, user }) {
             Adicionar
 
           </Button>
-          <Button type="reset" onClick={ onClick }>Cancelar</Button>
+          <Button type="reset" onClick={ () => onClick(false) }>Cancelar</Button>
         </section>
       </Form>
     </div>

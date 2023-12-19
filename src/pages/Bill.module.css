@@ -26,3 +26,14 @@
 .buttons button {
   width: 40%;
 }
+
+.img {
+  width: 100%;
+  border-radius: 11px;
+  margin-top: 30px;
+}
+
+
+.sucess {
+  color: rgba(85, 132, 122, 0.97)!important;
+}
