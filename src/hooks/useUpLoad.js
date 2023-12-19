@@ -12,11 +12,7 @@ function useUpload() {
 
   const TIME_OUT = 1000;
 
-  const handleUpload = (e) => {
-    e.preventDefault();
-
-    const file = e.target[0]?.files[0];
-
+  const handleUpload = (file) => {
     if (file) {
       const storageRef = ref(storage, `images/${user.username}/${file.name}`);
       const uploadTask = uploadBytesResumable(storageRef, file);
