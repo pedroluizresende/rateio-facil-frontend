@@ -48,7 +48,6 @@ function Camera({ setOpenCamera, setCurrentImage }) {
       <video
         className={ styles.camera }
         ref={ videoRef }
-        style={ { transform: 'rotate(90deg)' } }
       >
         <track kind="captions" />
       </video>
