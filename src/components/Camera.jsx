@@ -18,8 +18,8 @@ function Camera({ setOpenCamera, setCurrentImage }) {
     }
     navigator.mediaDevices.getUserMedia({
       video: {
-        width: { ideal: 2160 },
-        height: { ideal: 3840 },
+        width: 2160,
+        height: 3840,
         facingMode: switchCamera ? 'user' : 'environment',
       },
     })
