@@ -7,13 +7,13 @@ import styles from './Camera.module.css';
 
 function Camera({ setOpenCamera, setCurrentImage }) {
   const videoRef = useRef(null);
-  const [switchCamera, setSwitchCamera] = useState(false);
+  const [switchCamera, setSwitchCamera] = useState(true);
 
   const getVideo = () => {
     navigator.mediaDevices.getUserMedia({
       video: {
-        width: 2160,
-        height: 3840,
+        width: { ideal: 2160 },
+        height: { ideal: 3840 },
         facingMode: switchCamera ? 'user' : 'environment',
       },
 
@@ -47,7 +47,7 @@ function Camera({ setOpenCamera, setCurrentImage }) {
 
   useEffect(() => {
     getVideo();
-  }, [videoRef.current]);
+  }, [videoRef.current, switchCamera]);
 
   return (
     <div className={ styles.container }>
