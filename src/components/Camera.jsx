@@ -12,8 +12,8 @@ function Camera({ setOpenCamera, setCurrentImage }) {
   const getVideo = () => {
     navigator.mediaDevices.getUserMedia({
       video: {
-        width: { ideal: 2160 },
-        height: { ideal: 3840 },
+        width: 2160,
+        height: 840,
         facingMode: switchCamera ? 'user' : 'environment',
       },
 
