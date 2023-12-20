@@ -45,10 +45,8 @@ function Camera({ setOpenCamera, setCurrentImage }) {
   useEffect(() => {
     const handleOrientationChange = () => {
       const video = videoRef.current;
-      const VERTICAL_ANGLE = 180;
 
-      if (window.screen.orientation.angle === 0
-        || window.screen.orientation.angle === VERTICAL_ANGLE) {
+      if (window.screen.orientation.angle === 0) {
         video.style.transform = 'rotate(0deg)';
       } else {
         video.style.transform = 'rotate(90deg)';
