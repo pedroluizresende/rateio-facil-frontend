@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 import styles from './BackButton.module.css';
 
 function BackButton({ onClick }) {
-  console.log('🚀 ~ file: BackButton.jsx:7 ~ BackButton ~ onClick:', onClick);
-
   return (
     <button className={ styles.backButton } onClick={ onClick }>
       <BiArrowBack />
