@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { TbCameraFilled } from 'react-icons/tb';
 import PropTypes from 'prop-types';
 import { BiArrowBack } from 'react-icons/bi';
@@ -44,7 +44,11 @@ function Camera({ setOpenCamera, setCurrentImage }) {
   return (
     <div className={ styles.container }>
       <BiArrowBack className={ styles.backBtn } onClick={ () => setOpenCamera(false) } />
-      <video className={ styles.camera } ref={ videoRef }>
+      <video
+        className={ styles.camera }
+        ref={ videoRef }
+        style={ { transform: 'rotate(90deg)', transformOrigin: 'center' } }
+      >
         <track kind="captions" />
       </video>
       <section className={ styles.buttons }>
