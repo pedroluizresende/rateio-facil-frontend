@@ -10,21 +10,35 @@ function Camera({ setOpenCamera, setCurrentImage }) {
   const [switchCamera, setSwitchCamera] = useState(true);
 
   const getVideo = () => {
+    const video = videoRef.current;
+
+    if (video.srcObject) {
+      const tracks = video.srcObject.getTracks();
+      tracks.forEach((track) => track.stop());
+    }
     navigator.mediaDevices.getUserMedia({
       video: {
-        width: 1080,
-        height: 1920,
+        width: { ideal: 2160 },
+        height: { ideal: 3840 },
         facingMode: switchCamera ? 'user' : 'environment',
       },
-
     })
       .then((stream) => {
-        const video = videoRef.current;
         video.srcObject = stream;
-        video.play();
+
+        // Adicionar listener para garantir que o vídeo está totalmente carregado
+        video.addEventListener('loadedmetadata', () => {
+          video.play();
+        });
+
+      // Ou use 'canplaythrough' em vez de 'loadedmetadata' se preferir
       })
       .catch((err) => {
-        console.log(err);
+        if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
+          console.error('O usuário negou a permissão para a câmera.');
+        } else {
+          console.error('Erro ao acessar a câmera:', err);
+        }
       });
   };
 
@@ -47,7 +61,7 @@ function Camera({ setOpenCamera, setCurrentImage }) {
 
   useEffect(() => {
     getVideo();
-  }, [videoRef.current, switchCamera]);
+  }, [videoRef, switchCamera]);
 
   return (
     <div className={ styles.container }>
