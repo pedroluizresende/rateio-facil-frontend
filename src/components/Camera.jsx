@@ -9,7 +9,7 @@ function Camera({ setOpenCamera, setCurrentImage }) {
 
   const getVideo = () => {
     navigator.mediaDevices.getUserMedia({
-      video: { width: 1080, height: 1920, facingMode: 'environment' },
+      video: { width: 1080, height: 1920, facingMode: 'user' },
     })
       .then((stream) => {
         const video = videoRef.current;
@@ -41,25 +41,6 @@ function Camera({ setOpenCamera, setCurrentImage }) {
   useEffect(() => {
     getVideo();
   }, [videoRef]);
-
-  useEffect(() => {
-    const handleOrientationChange = () => {
-      const video = videoRef.current;
-
-      if (window.screen.orientation.angle === 0) {
-        video.style.transform = 'rotate(0deg)';
-      } else {
-        video.style.transform = 'rotate(90deg)';
-      }
-      console.log(window.screen.orientation.angle);
-    };
-
-    window.addEventListener('orientationchange', handleOrientationChange);
-
-    return () => {
-      window.removeEventListener('orientationchange', handleOrientationChange);
-    };
-  }, []);
 
   return (
     <div className={ styles.container }>
