@@ -9,7 +9,7 @@ function Camera({ setOpenCamera, setCurrentImage }) {
 
   const getVideo = () => {
     navigator.mediaDevices.getUserMedia({
-      video: { width: 1080, height: 1920 },
+      video: { width: 1920, height: 1080, facingMode: 'environment' },
     })
       .then((stream) => {
         const video = videoRef.current;
@@ -41,13 +41,34 @@ function Camera({ setOpenCamera, setCurrentImage }) {
   useEffect(() => {
     getVideo();
   }, [videoRef]);
+
+  useEffect(() => {
+    const handleOrientationChange = () => {
+      const video = videoRef.current;
+      const VERTICAL_ANGLE = 180;
+
+      if (window.screen.orientation.angle === 0
+        || window.screen.orientation.angle === VERTICAL_ANGLE) {
+        video.style.transform = 'rotate(90deg)';
+      } else {
+        video.style.transform = 'rotate(0deg)';
+      }
+    };
+
+    window.addEventListener('orientationchange', handleOrientationChange);
+
+    return () => {
+      window.removeEventListener('orientationchange', handleOrientationChange);
+    };
+  }, []);
+
   return (
     <div className={ styles.container }>
       <BiArrowBack className={ styles.backBtn } onClick={ () => setOpenCamera(false) } />
       <video
         className={ styles.camera }
         ref={ videoRef }
-        style={ { transform: 'rotate(90deg)', transformOrigin: 'center' } }
+        style={ { transform: 'rotate(90deg)' } }
       >
         <track kind="captions" />
       </video>
