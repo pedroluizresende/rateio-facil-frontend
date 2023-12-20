@@ -29,7 +29,7 @@ function CalcCard({ calculation }) {
               Taxa de Serviço:
             </strong>
             <p>
-              {`R$ ${taxService.toFixed(2)}`}
+              {`R$ ${taxService && taxService.toFixed(2)}`}
             </p>
           </li>
           <li>
