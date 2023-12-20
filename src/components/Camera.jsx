@@ -49,9 +49,9 @@ function Camera({ setOpenCamera, setCurrentImage }) {
 
       if (window.screen.orientation.angle === 0
         || window.screen.orientation.angle === VERTICAL_ANGLE) {
-        video.style.transform = 'rotate(90deg)';
-      } else {
         video.style.transform = 'rotate(0deg)';
+      } else {
+        video.style.transform = 'rotate(90deg)';
       }
       console.log(window.screen.orientation.angle);
     };
