@@ -11,10 +11,12 @@ function Camera({ setOpenCamera, setCurrentImage }) {
 
   const getVideo = () => {
     navigator.mediaDevices.getUserMedia({
-      video: { width: 1080,
-        height:
-        1920,
-        facingMode: switchCamera ? 'user' : 'environment' },
+      video: {
+        width: 2160,
+        height: 3840,
+        facingMode: switchCamera ? 'user' : 'environment',
+      },
+
     })
       .then((stream) => {
         const video = videoRef.current;
@@ -45,7 +47,7 @@ function Camera({ setOpenCamera, setCurrentImage }) {
 
   useEffect(() => {
     getVideo();
-  }, [videoRef]);
+  }, [videoRef.current]);
 
   return (
     <div className={ styles.container }>
