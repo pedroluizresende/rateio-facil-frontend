@@ -1,15 +1,20 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { TbCameraFilled } from 'react-icons/tb';
 import PropTypes from 'prop-types';
 import { BiArrowBack } from 'react-icons/bi';
+import { MdCameraswitch } from 'react-icons/md';
 import styles from './Camera.module.css';
 
 function Camera({ setOpenCamera, setCurrentImage }) {
   const videoRef = useRef(null);
+  const [switchCamera, setSwitchCamera] = useState(false);
 
   const getVideo = () => {
     navigator.mediaDevices.getUserMedia({
-      video: { width: 1080, height: 1920, facingMode: 'user' },
+      video: { width: 1080,
+        height:
+        1920,
+        facingMode: switchCamera ? 'user' : 'environment' },
     })
       .then((stream) => {
         const video = videoRef.current;
@@ -59,6 +64,14 @@ function Camera({ setOpenCamera, setCurrentImage }) {
           className={ styles.snapBtn }
         >
           <TbCameraFilled />
+        </button>
+        <button
+          type="button"
+          onClick={ () => setSwitchCamera(!switchCamera) }
+          aria-label="Trocar Câmera"
+          className={ styles.switchBtn }
+        >
+          <MdCameraswitch />
         </button>
       </section>
     </div>

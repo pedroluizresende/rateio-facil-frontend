@@ -47,6 +47,7 @@
   background-color: rgba(85, 132, 122, 1);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   z-index: 15;
+  font-size: 30px;
 }
 
 .snapBtn:hover {
@@ -82,4 +83,23 @@
 
 .backBtn:focus {
   outline: none;
+}
+
+.switchBtn {
+  position: fixed;
+  bottom: 30px;
+  right: 0;
+  margin: 30px;
+  color:rgba(85, 132, 122, 1);
+  transition: 0.3s ease-in-out;
+  z-index: 15;
+  background: none;
+  border: none;
+  font-size: 45px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.switchBtn:active {
+  transform: scale(0.8);
+  color: rgba(85, 132, 122, 0.80);
 }
