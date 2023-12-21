@@ -4,8 +4,12 @@ import PropTypes from 'prop-types';
 import styles from './Input.module.css';
 
 function Input({
-  placeholder, type = 'text',
-  value, onChange, name = '', inputRef,
+  placeholder,
+  type = 'text',
+  value,
+  onChange,
+  name,
+  inputRef,
 }) {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -27,27 +31,30 @@ function Input({
         accept={ type === 'file' ? 'image/*' : '' }
         ref={ inputRef }
       />
-      {
-        type === 'password' && (
-          !showPassword ? <AiFillEyeInvisible
-            onClick={ toggleShowPassword }
-          /> : <AiFillEye onClick={ toggleShowPassword } />
-        )
-      }
+      {type === 'password' && (
+        <div className={ styles.eyeIconContainer }>
+          {showPassword ? (
+            <AiFillEye onClick={ toggleShowPassword } />
+          ) : (
+            <AiFillEyeInvisible onClick={ toggleShowPassword } />
+          )}
+        </div>
+      )}
     </div>
   );
 }
 
 Input.propTypes = {
   placeholder: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
+  type: PropTypes.string,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   name: PropTypes.string,
-  inputRef: PropTypes.func,
+  inputRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
 };
 
 Input.defaultProps = {
+  type: 'text',
   name: '',
   inputRef: () => {},
 };

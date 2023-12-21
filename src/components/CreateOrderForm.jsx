@@ -27,67 +27,68 @@ function CreateOrderForm({ onClick, billId, user }) {
 
   const { orders, addOrder, addSplitOrder, error } = useContext(BillContext);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     if (split) {
       await addSplitOrder(billId, order, [...splitFriend, order.friend]);
     } else {
       await addOrder(billId, order);
     }
     onClick(false);
-    window.location.reload();
   };
-
-  useEffect(() => {
-    if (validateNewOrder(order)) {
-      setIsDisabled(false);
-    } else {
-      setIsDisabled(true);
-    }
-  }, [order]);
-
-  useEffect(() => {
-    setFriends(getFriendsName(orders));
-    if (newFriend) {
-      setOrder((prevState) => ({ ...prevState, friend: '' }));
-    } else {
-      setOrder((prevState) => ({ ...prevState, friend: user.name }));
-    }
-  }, [orders, newFriend]);
 
   const handleKeyClick = (e) => {
     if (e.code === 'Escape') onClick(false);
   };
 
   const handleChange = (e) => {
-    if (e.target.name === 'friendSelect') {
-      setOrder((prevState) => ({ ...prevState, friend: e.target.value }));
-    } else if (e.target.name === 'value') {
-      setOrder((prevState) => ({
-        ...prevState, [e.target.name]: e.target.value.replace(',', '.') }));
-    } else {
-      setOrder((prevState) => ({ ...prevState, [e.target.name]: e.target.value }));
-    }
+    const { name, value } = e.target;
+
+    setOrder((prevState) => {
+      if (name === 'friendSelect') {
+        return { ...prevState, friend: value };
+      }
+      if (name === 'value') {
+        return { ...prevState, [name]: value.replace(',', '.') };
+      }
+      return { ...prevState, [name]: value };
+    });
   };
+
+  const handleClick = () => {
+    handleKeyClick({ code: 'Enter' });
+  };
+
+  useEffect(() => {
+    setIsDisabled(!validateNewOrder(order));
+  }, [order]);
+
+  useEffect(() => {
+    setFriends(getFriendsName(orders));
+    setOrder((prevState) => ({
+      ...prevState,
+      friend: newFriend ? '' : user.name,
+    }));
+  }, [orders, newFriend]);
+
   return (
     <div
       className={ styles.container }
       role="button"
+      aria-labelledby="criar-conta"
       tabIndex={ 0 }
       onKeyUp={ handleKeyClick }
+      onClick={ handleClick }
     >
       <Form onSubmit={ handleSubmit }>
         <Checkbox
           text="novo amigo?"
           id="checkNewFriend"
-          onChange={ (e) => {
-            setNewFriend(e.target.checked);
-          } }
+          onChange={ (e) => setNewFriend(e.target.checked) }
           value="newFriend"
           checked={ newFriend }
         />
 
-        { newFriend ? (
+        {newFriend ? (
           <Input
             placeholder="Nome do amigo"
             type="text"
@@ -124,29 +125,25 @@ function CreateOrderForm({ onClick, billId, user }) {
           value="split"
           checked={ split }
         />
-        {
-          split && (
-            <SplitFriendsList
-              setSplitFriend={ setSplitFriend }
-              friends={ user.name === order.friend
+        {split && (
+          <SplitFriendsList
+            setSplitFriend={ setSplitFriend }
+            friends={
+              user.name === order.friend
                 ? friends.filter((friend) => friend !== user.name)
-                : [user.name, ...friends.filter((friend) => friend !== user.name)] }
-            />
-          )
-        }
+                : [user.name, ...friends.filter((friend) => friend !== user.name)]
+            }
+          />
+        )}
 
-        {
-          error && <span>{error}</span>
-        }
+        {error && <span>{error}</span>}
         <section className={ styles.buttons }>
-          <Button
-            type="submit"
-            disabled={ isDisabled }
-          >
+          <Button type="submit" disabled={ isDisabled }>
             Adicionar
-
           </Button>
-          <Button type="reset" onClick={ () => onClick(false) }>Cancelar</Button>
+          <Button type="reset" onClick={ () => onClick(false) }>
+            Cancelar
+          </Button>
         </section>
       </Form>
     </div>

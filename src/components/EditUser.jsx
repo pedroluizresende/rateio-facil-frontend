@@ -19,7 +19,7 @@ function EditUser({ onClick, user }) {
     confirmEmail: '',
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = () => 
     e.preventDefault();
     updateUser(update);
     if (error === 'Usuário atualizado com sucesso!') window.location.reload();

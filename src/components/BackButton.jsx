@@ -4,8 +4,16 @@ import PropTypes from 'prop-types';
 import styles from './BackButton.module.css';
 
 function BackButton({ onClick }) {
+  const handleButtonClick = () => {
+    if (onClick) {
+      onClick();
+    } else {
+      window.history.back();
+    }
+  };
+
   return (
-    <button className={ styles.backButton } onClick={ onClick }>
+    <button className={ styles.backButton } onClick={ handleButtonClick }>
       <BiArrowBack />
     </button>
   );
@@ -16,9 +24,7 @@ BackButton.propTypes = {
 };
 
 BackButton.defaultProps = {
-  onClick: () => {
-    window.history.back();
-  },
+  onClick: null,
 };
 
 export default BackButton;

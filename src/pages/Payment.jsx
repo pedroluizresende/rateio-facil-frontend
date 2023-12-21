@@ -11,22 +11,20 @@ import CustomSpinner from '../components/CustomSpinner';
 import TakePhoto from '../components/TakePhoto';
 
 function Payment() {
+  const { orders, getOrders, finishBill, loading } = useContext(BillContext);
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
+
   const [friends, setFriends] = useState([]);
-  const { orders, getOrders, finishBill,
-    loading } = useContext(BillContext);
   const [currIndex, setCurrIndex] = useState(0);
   const [paidFriends, setPaidFriends] = useState([]);
   const [finished, setFinished] = useState(false);
   const [takePhoto, setTakePhoto] = useState(false);
 
-  const navigate = useNavigate();
-
-  const { pathname } = useLocation();
-
   const { getFriendsName } = useFriendFormatter();
 
   const clickHandler = () => {
-    setPaidFriends([...paidFriends, friends[currIndex]]);
+    setPaidFriends((prevPaidFriends) => [...prevPaidFriends, friends[currIndex]]);
   };
 
   const handleSubmit = async () => {
@@ -35,34 +33,25 @@ function Payment() {
   };
 
   useEffect(() => {
-    setFriends([]);
-    setCurrIndex(0);
-    setPaidFriends([]);
-    setFinished(false);
     getOrders(pathname.split('/')[3]);
-  }, [pathname]);
+  }, []);
 
   useEffect(() => {
-    setFriends([...getFriendsName(orders)]);
+    setFriends(getFriendsName(orders));
   }, [orders]);
 
   useEffect(() => {
-    setTimeout(() => {
-      if (paidFriends.length === friends.length && friends.length !== 0) {
-        setFinished(true);
-      } else {
-        setFinished(false);
-      }
-    }, 100);
-  }, [paidFriends]);
-
-  if (friends.length === 0 && loading) return <CustomSpinner />;
+    setFinished(friends.length > 0 && paidFriends.length === friends.length);
+  }, [paidFriends, friends]);
 
   const changeFriend = (newIndex) => {
     if (newIndex >= 0 && newIndex < friends.length) {
       setCurrIndex(newIndex);
     }
   };
+
+  if (friends.length === 0 && loading) return <CustomSpinner />;
+
   return (
     <main className={ styles.container }>
       <BackButton />
@@ -82,44 +71,38 @@ function Payment() {
         />
       </Pagination>
 
-      {
-        finished && (
-          <main className={ styles.finishButton }>
-            <div>
-              <h2>Conta paga!</h2>
-              <span>Os valores podem estar diferentes, confira!</span>
+      {finished && (
+        <main className={ styles.finishButton }>
+          <div>
+            <h2>Conta paga!</h2>
+            <span>Os valores podem estar diferentes, confira!</span>
 
-              {
-                !takePhoto && (
-                  <p>
-                    Deseja registrar este momento com uma foto?
-                    <button
-                      className={ styles.takePhotoBtn }
-                      type="button"
-                      onClick={ () => setTakePhoto(true) }
-                    >
-                      clique aqui
-                    </button>
-                  </p>
-                )
-              }
+            {!takePhoto ? (
+              <p>
+                Deseja registrar este momento com uma foto?
+                <button
+                  className={ styles.takePhotoBtn }
+                  type="button"
+                  onClick={ () => setTakePhoto(true) }
+                >
+                  clique aqui
+                </button>
+              </p>
+            ) : (
+              <TakePhoto setTakePhoto={ setTakePhoto } />
+            )}
 
-              {
-                takePhoto && (
-                  <TakePhoto setTakePhoto={ setTakePhoto } />
-                )
-              }
-              <Button
-                className={ styles.finishButton }
-                type="button"
-                onClick={ handleSubmit }
-              >
-                Finalizar
-              </Button>
-            </div>
-          </main>
-        )
-      }
+            <Button
+              className={ styles.finishButton }
+              type="button"
+              onClick={ handleSubmit }
+              disabled={ !finished }
+            >
+              Finalizar
+            </Button>
+          </div>
+        </main>
+      )}
     </main>
   );
 }

@@ -1,50 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './CalcCard.module.css';
+import ListItem from './ListItem';
 
 function CalcCard({ calculation }) {
-  if (calculation) {
-    const { establishment, value, taxService, total } = calculation;
-    return (
-      <div className={ styles.card }>
-        <ul>
-          <li>
-            <strong>
-              Estabelcimento:
-            </strong>
-            <p>
-              {establishment}
-            </p>
-          </li>
-          <li>
-            <strong>
-              Valor:
-            </strong>
-            <p>
-              {`R$ ${value}`}
-            </p>
-          </li>
-          <li>
-            <strong>
-              Taxa de Serviço:
-            </strong>
-            <p>
-              {`R$ ${taxService && taxService.toFixed(2)}`}
-            </p>
-          </li>
-          <li>
-            <strong>
-              Total:
-            </strong>
-            <p>
-              {`R$ ${total}`}
-            </p>
-          </li>
-        </ul>
-        <span>confira os valores com o garçom!</span>
-      </div>
-    );
+  if (!calculation) {
+    return null;
   }
+
+  const { establishment, value, taxService, total } = calculation;
+
+  return (
+    <div className={ styles.card }>
+      <ul>
+        <ListItem label="Estabelecimento" value={ establishment } />
+        <ListItem label="Valor" value={ `R$ ${value && value.toFixed(2)}` } />
+        <ListItem
+          label="Taxa de Serviço"
+          value={ `R$ ${taxService && taxService.toFixed(2)}` }
+        />
+        <ListItem label="Total" value={ `R$ ${total}` } />
+      </ul>
+      <span>Confira os valores com o garçom!</span>
+    </div>
+  );
 }
 
 CalcCard.propTypes = {

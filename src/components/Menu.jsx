@@ -7,39 +7,20 @@ import Context from '../context/Context';
 
 function Menu({ onClick }) {
   const { logout } = useContext(Context);
-
   const { pathname } = useLocation();
+
+  const createLink = (to, label) => (
+    <Link to={ to } onClick={ () => pathname === to && onClick() }>
+      {label}
+    </Link>
+  );
 
   return (
     <div className={ styles.container }>
       <ul>
-        <li>
-          <Link
-            to="/home"
-            onClick={ () => pathname === '/home' && onClick() }
-          >
-            Home
-
-          </Link>
-        </li>
-        <li>
-          <Link
-            to="/bills"
-            onClick={ () => pathname === '/bills' && onClick() }
-          >
-            Contas
-
-          </Link>
-        </li>
-        <li>
-          <Link
-            to="/perfil"
-            onClick={ () => pathname === '/perfil' && onClick() }
-          >
-            Perfil
-
-          </Link>
-        </li>
+        <li>{createLink('/home', 'Home')}</li>
+        <li>{createLink('/bills', 'Contas')}</li>
+        <li>{createLink('/perfil', 'Perfil')}</li>
         <li>
           <BiLogOut className={ styles.logoutIcon } onClick={ logout } />
         </li>

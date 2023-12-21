@@ -20,7 +20,7 @@ function Provider({ children }) {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(defaultUser);
   const [error, setError] = useState('');
-  const [sucess, setSucess] = useState(null);
+  const [success, setSuccess] = useState(null);
 
   const apiUrl = (process.env.REACT_APP_API_URL).replace(/"/g, '');
 
@@ -52,11 +52,11 @@ function Provider({ children }) {
 
       setInLocalStorage('token', encryptedToken);
 
-      setSucess('Login realizado com sucesso!');
+      setSuccess('Login realizado com successo!');
       setError(null);
       navigate('/home');
     } catch (e) {
-      setSucess(null);
+      setSuccess(null);
       handleApiError(e, setError, navigate);
     }
   };
@@ -99,13 +99,13 @@ function Provider({ children }) {
     };
     try {
       const response = await axios.post(`${apiUrl}/users`, newUser);
-      setSucess(response.data.message);
+      setSuccess(response.data.message);
       navigate(
         '/criarconta/confirmacao/mensagem',
         { state: { email: newUser.email, name: newUser.name } },
       );
     } catch (e) {
-      setSucess(null);
+      setSuccess(null);
       handleApiError(e, setError, navigate);
     } finally {
       setTimeout(() => {
@@ -133,7 +133,7 @@ function Provider({ children }) {
       };
       const response = await axios.put(`${apiUrl}/users/${decryptedId}`, update, config);
       setUser(response.data.data);
-      setError('Usuário atualizado com sucesso!');
+      setError('Usuário atualizado com successo!');
       navigate('/perfil');
     } catch (e) {
       if (e.response.status === StatusCode.FORBIDDEN) {
@@ -156,10 +156,10 @@ function Provider({ children }) {
         },
       };
       const response = await axios.put(`${apiUrl}/users/confirmation`, {}, config);
-      setSucess(response.data.message);
+      setSuccess(response.data.message);
       setError(null);
     } catch (e) {
-      setSucess(null);
+      setSuccess(null);
       handleApiError(e, setError, navigate);
     }
   };
@@ -169,7 +169,7 @@ function Provider({ children }) {
     localStorage.clear();
     navigate('/');
     setError(null);
-    setSucess(null);
+    setSuccess(null);
     setLoading(false);
   };
 
@@ -185,10 +185,10 @@ function Provider({ children }) {
     setError,
     createUser,
     updateUser,
-    sucess,
+    success,
     logout,
     confirmUser,
-  }), [loading, token, error, user, sucess]);
+  }), [loading, token, error, user, success]);
 
   return (
     <Context.Provider value={ value }>

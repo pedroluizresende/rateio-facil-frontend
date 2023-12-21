@@ -1,17 +1,17 @@
 import PropTypes from 'prop-types';
 import styles from './Button.module.css';
 
-function Button({ children, type, onClick,
-  disabled = false }) {
+function Button({ children, type = 'button', onClick, disabled = false }) {
+  const buttonClassName = type === 'reset' ? styles.buttonRed : styles.button;
+
   return (
     <button
       onClick={ onClick }
-      className={ type === 'reset' ? styles.buttonRed : styles.button }
+      className={ buttonClassName }
       type={ type }
       disabled={ disabled }
     >
       {children}
-
     </button>
   );
 }

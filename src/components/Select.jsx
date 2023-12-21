@@ -11,19 +11,17 @@ function Select({ options, name, onChange }) {
       className={ styles.select }
       name={ name }
       onChange={ onChange }
-      defaultValue={ user.username }
+      value={ user.name }
     >
       {user && (
-        <option
-          key={ user.name }
-          value={ user.name }
-          defaultValue
-        >
+        <option key={ user.name } value={ user.name }>
           {`${user.name}(eu)`}
         </option>
       )}
       {options.map((option, index) => (
-        <option key={ index } value={ option }>{option}</option>
+        <option key={ index } value={ option }>
+          {option}
+        </option>
       ))}
     </select>
   );

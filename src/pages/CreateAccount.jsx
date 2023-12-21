@@ -1,11 +1,12 @@
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useContext, useEffect, useState } from 'react';
 import Button from '../components/Button';
 import Form from '../components/Form';
 import Input from '../components/Input';
 import styles from './CreateAccount.module.css';
 import useValidation from '../hooks/useValidation';
 import Context from '../context/Context';
+import CustomSpinner from '../components/CustomSpinner';
 
 function CreateAccount() {
   const navigate = useNavigate();
@@ -19,9 +20,8 @@ function CreateAccount() {
   });
 
   const [isDisabled, setIsDisabled] = useState(true);
-
   const { validateNewAccount } = useValidation();
-  const { error, createUser } = useContext(Context);
+  const { error, createUser, loading } = useContext(Context);
 
   const handleChanges = ({ target }) => {
     const { name, value } = target;
@@ -31,20 +31,17 @@ function CreateAccount() {
     }));
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async () => {
     await createUser(account);
   };
 
   useEffect(() => {
     const { confirmEmail, email } = account;
 
-    if (validateNewAccount(account) && confirmEmail === email) {
-      setIsDisabled(false);
-    } else {
-      setIsDisabled(true);
-    }
+    setIsDisabled(!(validateNewAccount(account) && confirmEmail === email));
   }, [account]);
+
+  if (loading) return (<CustomSpinner />);
 
   return (
     <main className={ styles.container }>
@@ -96,13 +93,8 @@ function CreateAccount() {
 
         {error && <span>{error}</span>}
         <section className={ styles.buttons }>
-
-          <Button
-            disabled={ isDisabled }
-            type="submit"
-          >
+          <Button disabled={ isDisabled } type="submit">
             Cadastrar
-
           </Button>
           <Button
             type="reset"
@@ -112,13 +104,10 @@ function CreateAccount() {
             } }
           >
             Cancelar
-
           </Button>
-
         </section>
       </Form>
     </main>
-
   );
 }
 

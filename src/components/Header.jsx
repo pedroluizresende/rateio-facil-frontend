@@ -11,6 +11,10 @@ function Header() {
     setIsOpen(!isOpen);
   };
 
+  const closeMenu = () => {
+    setIsOpen(false);
+  };
+
   return (
     <div className={ styles.header }>
       {isOpen ? (
@@ -18,9 +22,7 @@ function Header() {
       ) : (
         <FaBars className={ styles.icon } onClick={ handleMenu } />
       )}
-      {
-        isOpen && <Menu onClick={ () => setIsOpen(false) } />
-      }
+      {isOpen && <Menu onClick={ closeMenu } />}
     </div>
   );
 }

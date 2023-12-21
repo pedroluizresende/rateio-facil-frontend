@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import BillContext from '../context/BillContext';
 import styles from './Bill.module.css';
@@ -12,12 +12,18 @@ import FriendsAccordion from '../components/FriendsAccordion';
 import CustomSpinner from '../components/CustomSpinner';
 
 function Bill() {
-  const { bill, getBill, loading, getOrders, orders,
-    deleteBill, sucess } = useContext(BillContext);
+  const {
+    bill,
+    getBill,
+    loading,
+    getOrders,
+    orders,
+    deleteBill,
+    success,
+  } = useContext(BillContext);
 
   const { getUser, user } = useContext(Context);
   const location = useLocation();
-
   const { formatDate } = useDateFormatter();
   const { getFriendsName } = useFriendFormatter();
   const navigate = useNavigate();
@@ -26,26 +32,25 @@ function Bill() {
   const [addOrder, setAddOrder] = useState(false);
   const [disabled, setDisabled] = useState(true);
 
+  const loadData = async () => {
+    if (!addOrder) {
+      const billId = location.pathname.split('/')[3];
+      await getBill(billId);
+      await getOrders(billId);
+    }
+  };
+
   useEffect(() => {
-    const billId = location.pathname.split('/')[3];
-    getBill(billId);
-    getOrders(billId);
-  }, [location]);
+    loadData();
+  }, [addOrder]);
 
   useEffect(() => {
     if (bill) {
       getUser(bill.userId);
     }
     setFriends([...getFriendsName(orders)]);
-    if (orders.length > 0) {
-      setDisabled(false);
-    } else {
-      setDisabled(true);
-    }
-  }, [bill]);
-
-  useEffect(() => {
-  }, [orders]);
+    setDisabled(orders.length === 0);
+  }, [bill, orders]);
 
   if (loading || !bill) return <CustomSpinner />;
 
@@ -56,61 +61,46 @@ function Bill() {
       <h2>{formatDate(bill.date)}</h2>
       <FriendsAccordion friends={ friends } />
 
-      {
-        bill.status === 'OPEN'
-        && (
-          <Button
-            type="button"
-            onClick={ () => setAddOrder(!addOrder) }
-          >
-            Adicionar Pedido
-
-          </Button>)
-      }
+      {bill.status === 'OPEN' && (
+        <Button type="button" onClick={ () => setAddOrder(!addOrder) }>
+          Adicionar Pedido
+        </Button>
+      )}
       <h3>
         {`R$ ${bill.total.toFixed(2)}`}
         {bill.status === 'CLOSED' && ' (Conta finalizada)'}
       </h3>
 
-      {sucess && <span className={ styles.sucess }>{sucess}</span>}
+      {success && <span className={ styles.success }>{success}</span>}
 
-      {
-        bill.status === 'OPEN'
-        && (
-          <section className={ styles.buttons }>
-            <Button
-              type="button"
-              onClick={
-                () => navigate(`/${bill.userId}/bill/${bill.id}/calculo`)
-              }
-              disabled={ disabled }
-            >
-              Finalizar
+      {bill.status === 'OPEN' && (
+        <section className={ styles.buttons }>
+          <Button
+            type="button"
+            onClick={ () => navigate(`/${bill.userId}/bill/${bill.id}/calculo`) }
+            disabled={ disabled }
+          >
+            Finalizar
+          </Button>
+          <Button type="reset" onClick={ async () => deleteBill(bill.id) }>
+            Cancelar
+          </Button>
+        </section>
+      )}
 
-            </Button>
-            <Button
-              type="reset"
-              onClick={ async () => deleteBill(bill.id) }
-            >
-              Cancelar
-
-            </Button>
-          </section>)
-      }
-
-      {
-        addOrder && <CreateOrderForm
+      {addOrder && (
+        <CreateOrderForm
           user={ user }
           billId={ bill.id }
-          onClick={ setAddOrder }
+          onClick={ () => setAddOrder(!addOrder) }
         />
-      }
+      )}
 
-      {
-        bill.imgUrl && (
-          <img className={ styles.img } src={ bill.imgUrl } alt="Imagem da conta" />
-        )
-      }
+      {bill.imgUrl && <img
+        className={ styles.img }
+        src={ bill.imgUrl }
+        alt="Imagem da conta"
+      />}
     </main>
   );
 }

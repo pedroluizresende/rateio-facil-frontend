@@ -1,5 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
-
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Form from '../components/Form';
 import Input from '../components/Input';
@@ -20,26 +19,25 @@ function Login() {
 
   const navigate = useNavigate();
 
-  const { login, error, sucess } = useContext(Context);
+  const { login, error, success } = useContext(Context);
 
-  const handleChange = ({ target }) => {
-    if (target.name === 'password') {
-      setPassword(target.value);
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    if (name === 'password') {
+      setPassword(value);
     } else {
-      setUsername(target.value);
+      setUsername(value);
     }
   };
 
   useEffect(() => {
     const id = getInLocalStorage('id');
-
     if (id) {
       navigate('/home');
     }
-  }, []);
+  }, [navigate]);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleSubmit = () => {
     login(username, password, remember);
   };
 
@@ -64,17 +62,17 @@ function Login() {
           onChange={ handleChange }
         />
         {error && <span className={ styles.error }>{error}</span>}
-        {sucess && <span className={ styles.sucess }>{sucess}</span>}
+        {success && <span className={ styles.success }>{success}</span>}
         <Checkbox
           text="Lembrar-me"
           id="checkRemember"
           value="remember"
-          onChange={ (e) => {
-            setRemember(e.target.checked);
-          } }
+          onChange={ (e) => setRemember(e.target.checked) }
           checked={ remember }
         />
-        <Button type="submit" disabled={ disabled }>Sign In</Button>
+        <Button type="submit" disabled={ disabled }>
+          Sign In
+        </Button>
 
         <p>
           Não tem uma conta?

@@ -7,53 +7,57 @@ import Button from './Button';
 import BillContext from '../context/BillContext';
 
 function CreateBillForm({ onClick }) {
-  const [estabilishment, setEstabilishment] = useState('');
+  const [establishment, setEstablishment] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
 
   const { openBill, error } = useContext(BillContext);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    openBill(estabilishment);
+  const handleSubmit = () => {
+    openBill(establishment);
   };
 
   const handleChange = (e) => {
-    setEstabilishment(e.target.value);
+    setEstablishment(e.target.value);
   };
 
   const handleKeyClick = (e) => {
     if (e.code === 'Escape') onClick();
   };
 
+  const handleClick = () => {
+    handleKeyClick({ code: 'Enter' });
+  };
+
   useEffect(() => {
-    if (estabilishment.length > 0) setIsDisabled(false);
-    else setIsDisabled(true);
-  }, [estabilishment]);
+    setIsDisabled(establishment.length === 0);
+  }, [establishment]);
+
   return (
     <div
       className={ styles.container }
-      role="button" // Definir um papel apropriado
-      tabIndex={ 0 }// Adicionar suporte a mouse
+      role="button"
+      aria-labelledby="criar-conta"
+      tabIndex={ 0 }
       onKeyUp={ handleKeyClick }
+      onClick={ handleClick }
     >
       <Form onSubmit={ handleSubmit }>
         <Input
           type="text"
           placeholder="Digite o nome do estabelecimento"
           onChange={ handleChange }
-          name="estabilishment"
-          value={ estabilishment }
+          name="establishment"
+          value={ establishment }
+          autoFocus
         />
         {error && <span>{error}</span>}
         <section className={ styles.buttons }>
-          <Button
-            type="submit"
-            disabled={ isDisabled }
-          >
+          <Button type="submit" disabled={ isDisabled }>
             Iniciar
-
           </Button>
-          <Button type="reset" onClick={ onClick }>Cancelar</Button>
+          <Button type="reset" onClick={ onClick }>
+            Cancelar
+          </Button>
         </section>
       </Form>
     </div>

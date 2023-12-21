@@ -15,7 +15,7 @@ function BillProvider({ children }) {
   const [orders, setOrders] = useState([]);
   const [allBills, setAllBills] = useState([]);
   const [calculation, setCalculation] = useState({});
-  const [sucess, setSucess] = useState(null);
+  const [success, setSuccess] = useState(null);
 
   const TIME_OUT = 1000;
 
@@ -38,15 +38,13 @@ function BillProvider({ children }) {
       },
     };
     try {
-      setSucess(null);
+      setSuccess(null);
       const response = await apiRequest(url, method, data, config);
       setError(null);
       return response.data;
     } catch (e) {
       handleApiError(e, setError, navigate);
-      setSucess(null);
-    } finally {
-      setLoadingTrue();
+      setSuccess(null);
     }
   };
 
@@ -63,10 +61,12 @@ function BillProvider({ children }) {
     const billFromApi = data.data;
     setBill(billFromApi);
     navigate(`${decryptedId}/bill/${billFromApi.id}`);
+    setLoadingTrue();
   };
 
   const getBill = async (billId) => {
     setLoading(true);
+    setBill(null);
     const id = getInLocalStorage('id');
     const decryptedId = decrypt(id);
     const billFromApi = await fetchWithToken(
@@ -75,16 +75,19 @@ function BillProvider({ children }) {
     );
     setBill(billFromApi);
     setError(null);
+    setLoadingTrue();
   };
 
   const getOrders = async (billId) => {
     setLoading(true);
+    setOrders([]);
     const ordersFromApi = await fetchWithToken(
       `${apiUrl}/bills/${billId}/items`,
       'get',
     );
     setOrders(ordersFromApi);
     setError(null);
+    setLoadingTrue();
   };
 
   const addOrder = async (billId, order) => {
@@ -92,7 +95,9 @@ function BillProvider({ children }) {
     await fetchWithToken(`${apiUrl}/bills/${billId}/items`, 'post', order);
 
     setError(null);
-    setSucess('Pedido adicionado com sucesso!');
+    setSuccess('Pedido adicionado com sucesso!');
+
+    setLoadingTrue();
   };
 
   const addSplitOrder = async (billId, order, friends) => {
@@ -104,7 +109,9 @@ function BillProvider({ children }) {
     };
     await fetchWithToken(`${apiUrl}/bills/${billId}/items/split`, 'post', body);
     setError(null);
-    setSucess('Pedido adicionado com sucesso!');
+    setSuccess('Pedido adicionado com sucesso!');
+
+    setLoadingTrue();
   };
 
   const getAllBill = async () => {
@@ -114,6 +121,7 @@ function BillProvider({ children }) {
     const data = await fetchWithToken(`${apiUrl}/users/${decryptedId}/bills`, 'get');
     setAllBills(data);
     setError(null);
+    setLoadingTrue();
   };
 
   const getFriendConsummation = async (billId, friendName) => {
@@ -123,6 +131,7 @@ function BillProvider({ children }) {
       `${apiUrl}/bills/${billId}/friendConsumption?friend=${encodedFriendName}`,
       'get',
     );
+    setLoadingTrue();
     return data;
   };
 
@@ -131,11 +140,14 @@ function BillProvider({ children }) {
     const data = await fetchWithToken(`${apiUrl}/bills/${billId}/calculate`, 'get');
     setCalculation(data);
     setError(null);
+    setLoadingTrue();
   };
 
   const finishBill = async (billId) => {
     setLoading(true);
     await fetchWithToken(`${apiUrl}/bills/${billId}/finish`, 'put');
+
+    setLoadingTrue();
   };
 
   const deleteBill = async (billId) => {
@@ -148,11 +160,13 @@ function BillProvider({ children }) {
 
   const addImg = async (imgUrl) => {
     setLoading(true);
-    setSucess(null);
+    setSuccess(null);
     const response = await
     fetchWithToken(`${apiUrl}/bills/${bill.id}/imgUrl`, 'put', { imgUrl });
-    setSucess(response.data.message);
+    setSuccess(response.data.message);
     setBill(response.data.data);
+
+    setLoadingTrue();
   };
 
   const value = useMemo(() => ({
@@ -174,8 +188,8 @@ function BillProvider({ children }) {
     addSplitOrder,
     setError,
     addImg,
-    sucess,
-  }), [loading, bill, error, orders, allBills, calculation, sucess]);
+    success,
+  }), [loading, bill, error, orders, allBills, calculation, success]);
 
   return (
     <BillContext.Provider value={ value }>

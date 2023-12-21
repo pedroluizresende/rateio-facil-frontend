@@ -10,19 +10,24 @@ import BackButton from '../components/BackButton';
 
 function Calculation() {
   const { getCalculation, calculation, loading } = useContext(BillContext);
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
 
   const [isCorrect, setIsCorrect] = useState(false);
-
-  const { pathname } = useLocation();
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     const billId = pathname.split('/')[3];
     getCalculation(billId);
   }, []);
 
-  if (loading) return (<CustomSpinner />);
+  if (loading) {
+    return <CustomSpinner />;
+  }
+
+  const handlePaymentClick = () => {
+    navigate(`/${calculation.userId}/bill/${calculation.billId}/pagamento`);
+  };
+
   return (
     <main className={ styles.container }>
       <BackButton />
@@ -31,24 +36,16 @@ function Calculation() {
       <CalcCard calculation={ calculation } />
 
       <Checkbox
-        text="esta correto?"
+        text="Esta correto?"
         onChange={ () => setIsCorrect(!isCorrect) }
         checked={ isCorrect }
       />
 
-      <Button
-        onClick={
-          () => navigate(`/${calculation.userId}/bill/${calculation.billId}/pagamento`)
-        }
-        disabled={ !isCorrect }
-      >
+      <Button onClick={ handlePaymentClick } disabled={ !isCorrect }>
         Pagar
-
       </Button>
     </main>
   );
 }
-
-Calculation.propTypes = {}.isRequired;
 
 export default Calculation;

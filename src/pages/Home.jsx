@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Context from '../context/Context';
 import styles from './Home.module.css';
 import Button from '../components/Button';
@@ -10,7 +10,7 @@ import Footer from '../components/Footer';
 
 function Home() {
   const { loading, getUser, user } = useContext(Context);
-  const [openBill, setOpenbill] = useState(false);
+  const [openBill, setOpenBill] = useState(false);
 
   useEffect(() => {
     getUser();
@@ -20,16 +20,19 @@ function Home() {
     return <CustomSpinner />;
   }
 
-  if (user.status === 'NOT_CONFIRMED') return (<ConfirmMessage />);
+  if (user.status === 'NOT_CONFIRMED') {
+    return <ConfirmMessage />;
+  }
+
   return (
     <main className={ styles.container }>
       <Header />
       <h1>{`Olá, ${user.name}...`}</h1>
       <h2>Bora iniciar uma conta?</h2>
-      <Button onClick={ () => setOpenbill(!openBill) } type="button">Sim</Button>
-      {
-        openBill && <CreateBillForm onClick={ () => setOpenbill(!openBill) } />
-      }
+      <Button onClick={ () => setOpenBill(!openBill) } type="button">
+        Sim
+      </Button>
+      {openBill && <CreateBillForm onClick={ () => setOpenBill(!openBill) } />}
       <Footer />
     </main>
   );
