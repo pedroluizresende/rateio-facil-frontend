@@ -1,10 +1,7 @@
 import PropTypes from 'prop-types';
 import styles from './InputImage.module.css';
 
-function InputImage({
-  handleFileInputChange,
-  text,
-}) {
+function InputImage({ handleFileInputChange, text }) {
   return (
     <label htmlFor="inputImage" className={ styles.button }>
       {text}

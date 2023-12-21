@@ -10,11 +10,22 @@ import Footer from '../components/Footer';
 
 function BillsList() {
   const { getAllBill, allBills, loading } = useContext(BillContext);
+
   useEffect(() => {
     getAllBill();
   }, []);
 
   if (loading) return <CustomSpinner />;
+
+  const renderBillCards = (bills) => {
+    if (bills.length === 0) {
+      return <h2>Não há contas disponíveis!</h2>;
+    }
+
+    return bills.map((bill, index) => (
+      <BillCard key={ `${bill.establishment}-${index}` } bill={ bill } />
+    ));
+  };
 
   const openBills = allBills.filter((bill) => bill.status === 'OPEN');
   const closedBills = allBills.filter((bill) => bill.status === 'CLOSED');
@@ -24,35 +35,15 @@ function BillsList() {
       <Header />
       <h1>Minhas contas!</h1>
 
-      <Tabs
-        defaultActiveKey="Abertas"
-        fill
-      >
+      <Tabs defaultActiveKey="Abertas" fill>
         <Tab eventKey="Abertas" title="Abertas" className={ styles.tab }>
-
           <section className={ styles.billsContainer }>
-            {
-              openBills.length === 0 && (<h2>Não há contas abertas!</h2>)
-            }
-
-            {
-              openBills.map((bill, index) => (
-                <BillCard key={ `${bill.establishment}-${index}` } bill={ bill } />
-              ))
-            }
+            {renderBillCards(openBills)}
           </section>
         </Tab>
         <Tab eventKey="Finalizadas" title="Finalizadas">
           <section className={ styles.billsContainer }>
-            {
-              closedBills.length === 0 && (<h2>Não há contas Finalizadas!</h2>)
-            }
-
-            {
-              closedBills.map((bill, index) => (
-                <BillCard key={ `${bill.establishment}-${index}` } bill={ bill } />
-              ))
-            }
+            {renderBillCards(closedBills)}
           </section>
         </Tab>
       </Tabs>

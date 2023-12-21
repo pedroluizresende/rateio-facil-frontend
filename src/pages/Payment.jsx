@@ -92,14 +92,16 @@ function Payment() {
               <TakePhoto setTakePhoto={ setTakePhoto } />
             )}
 
-            <Button
-              className={ styles.finishButton }
-              type="button"
-              onClick={ handleSubmit }
-              disabled={ !finished }
-            >
-              Finalizar
-            </Button>
+            <section className={ styles.buttons }>
+              <Button
+                className={ styles.finishButton }
+                type="button"
+                onClick={ handleSubmit }
+                disabled={ !finished }
+              >
+                Finalizar
+              </Button>
+            </section>
           </div>
         </main>
       )}

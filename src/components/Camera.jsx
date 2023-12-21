@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { TbCameraFilled } from 'react-icons/tb';
 import PropTypes from 'prop-types';
 import { BiArrowBack } from 'react-icons/bi';
@@ -18,8 +18,8 @@ function Camera({ setOpenCamera, setCurrentImage }) {
     }
     navigator.mediaDevices.getUserMedia({
       video: {
-        width: 2160,
-        height: 3840,
+        width: { ideal: 2160 },
+        height: { ideal: 3840 },
         facingMode: switchCamera ? 'user' : 'environment',
       },
     })
@@ -45,11 +45,19 @@ function Camera({ setOpenCamera, setCurrentImage }) {
   const takePhoto = () => {
     const video = videoRef.current;
     const canvas = document.createElement('canvas');
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
     const context = canvas.getContext('2d');
+    const { videoWidth, videoHeight } = video;
 
-    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+    canvas.width = videoWidth;
+    canvas.height = videoHeight;
+
+    // Espelhar a imagem se a câmera estiver no modo 'user'
+    if (switchCamera) {
+      context.translate(videoWidth, 0);
+      context.scale(-1, 1);
+    }
+
+    context.drawImage(video, 0, 0, videoWidth, videoHeight);
 
     canvas.toBlob((blob) => {
       const file = new File([blob], 'foto.png', { type: 'image/png' });
@@ -69,9 +77,8 @@ function Camera({ setOpenCamera, setCurrentImage }) {
       <video
         className={ styles.camera }
         ref={ videoRef }
-      >
-        <track kind="captions" />
-      </video>
+        style={ { transform: switchCamera ? 'scaleX(-1)' : 'none' } }
+      />
       <section className={ styles.buttons }>
         <button
           type="button"

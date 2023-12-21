@@ -19,18 +19,17 @@ function EditUser({ onClick, user }) {
     confirmEmail: '',
   });
 
-  const handleSubmit = () => 
-    e.preventDefault();
+  const handleSubmit = async () => {
     updateUser(update);
     if (error === 'Usuário atualizado com sucesso!') window.location.reload();
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setUpdate({
-      ...update,
+    setUpdate((prevUpdate) => ({
+      ...prevUpdate,
       [name]: value,
-    });
+    }));
   };
 
   const handleKeyClick = (e) => {
@@ -39,12 +38,11 @@ function EditUser({ onClick, user }) {
 
   useEffect(() => {
     const { email, confirmEmail } = update;
-    if (validateUpdateAccount(update) && email === confirmEmail) {
-      setIsDisabled(false);
-    } else {
-      setIsDisabled(true);
-    }
-  }, [update]);
+    const isValidUpdate = validateUpdateAccount(update);
+    const emailsMatch = email === confirmEmail;
+
+    setIsDisabled(!isValidUpdate || !emailsMatch);
+  }, [update, validateUpdateAccount]);
 
   return (
     <div
@@ -80,18 +78,14 @@ function EditUser({ onClick, user }) {
           value={ update.confirmEmail }
           onChange={ handleChange }
         />
-        {
-          error && <span>{ error }</span>
-        }
+        {error && <span>{error}</span>}
         <section className={ styles.buttons }>
-          <Button
-            disabled={ isDisabled }
-            type="submit"
-          >
+          <Button disabled={ isDisabled } type="submit">
             Salvar
-
           </Button>
-          <Button type="reset" onClick={ onClick }>Cancelar</Button>
+          <Button type="reset" onClick={ onClick }>
+            Cancelar
+          </Button>
         </section>
       </Form>
     </div>

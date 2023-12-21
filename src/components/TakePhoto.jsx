@@ -71,7 +71,7 @@ function TakePhoto({ setTakePhoto }) {
 
           imageUrl.length === 0 && selectedImage
           && (
-            <div>
+            <div className={ styles.imagePreview }>
               <img src={ selectedImage } alt="Imagem" width="200px" />
               <p>{nameImage}</p>
             </div>

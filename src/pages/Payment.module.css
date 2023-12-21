@@ -116,3 +116,16 @@
   color: rgba(85, 132, 122, 0.97);
   margin-top: 0 !important;
 }
+
+.buttons {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.buttons button {
+  width: 45%;
+  margin: 0;
+}
