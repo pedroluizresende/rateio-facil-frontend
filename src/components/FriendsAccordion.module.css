@@ -3,12 +3,19 @@
 }
 
 .accordionItem {
-  margin-bottom: 15px;
   width: 100%;
+  border: 0.5px solid #b1b1b1 !important;
+}
+
+.accordionBody {
+  padding: 5px !important;
+  border: 1px solid #b1b1b1 !important;
+  border-width: 90%;
 }
 
 .accordionHeader {
   margin: 0;
+  border: 1px;
 }
 
 .accordionHeader button {
@@ -18,7 +25,10 @@
 .accordion ul {
   margin: 0;
   padding: 0;
-  list-style: none; 
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .accordion li {
@@ -27,4 +37,18 @@
   list-style: none;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+}
+
+
+.itemsBtns {
+  position: relative;
+  display: flex;
+}
+
+.itemsBtns button {
+  border: ipx solid red;
+  background: none;
+  border: none;
+  color: rgba(85, 132, 122, 1);
 }

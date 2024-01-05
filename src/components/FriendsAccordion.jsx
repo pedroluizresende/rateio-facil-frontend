@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Accordion } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import { MdDelete, MdEdit } from 'react-icons/md';
 import useFriendFormatter from '../hooks/useFriendFormatter';
 import BillContext from '../context/BillContext';
 import styles from './FriendsAccordion.module.css';
@@ -23,7 +24,7 @@ function FriendsAccordion({ friends }) {
               {friend}
 
             </Accordion.Header>
-            <Accordion.Body>
+            <Accordion.Body className={ styles.accordionBody }>
               <ul>
                 {
                   getFriendOrders(orders, friend).map((order) => (
@@ -34,6 +35,14 @@ function FriendsAccordion({ friends }) {
                         {' '}
                         {order.value.toFixed(2)}
                       </p>
+                      <section className={ styles.itemsBtns }>
+                        <button>
+                          <MdEdit />
+                        </button>
+                        <button>
+                          <MdDelete />
+                        </button>
+                      </section>
                     </li>
                   ))
                 }
