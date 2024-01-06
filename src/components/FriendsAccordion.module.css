@@ -25,30 +25,48 @@
 .accordion ul {
   margin: 0;
   padding: 0;
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  display: flex !important;
+  flex-direction: column !important;
 }
 
 .accordion li {
-  margin: 0;
+  margin:0;
   padding: 0;
   list-style: none;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  width: 100%;
+  padding: 15px 0;
+  border-bottom: 0.5px solid #b1b1b1;
+}
+
+.accordion li:last-child {
+  border-bottom: none;
+}
+
+.accordion p {
+  margin: auto 0;
 }
 
 
 .itemsBtns {
   position: relative;
   display: flex;
+  align-items: center;
 }
 
 .itemsBtns button {
-  border: ipx solid red;
   background: none;
   border: none;
   color: rgba(85, 132, 122, 1);
+  margin: 0;
+  font-size: 24px;
+  padding: 0;
+}
+
+.text {
+  display: flex;
+  width: 80%;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }

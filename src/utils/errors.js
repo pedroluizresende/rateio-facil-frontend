@@ -19,6 +19,7 @@ const handleApiError = (error, setError, navigate) => {
       navigate('/');
     }
   } else {
+    console.log(error);
     setError('Ocorreu um erro inesperado ao se comunicar com o servidor.');
     localStorage.clear();
     navigate('/');
