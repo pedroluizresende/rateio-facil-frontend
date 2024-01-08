@@ -82,8 +82,8 @@ function Provider({ children }) {
       setUser(response.data);
       setError(null);
     } catch (e) {
-      localStorage.clear();
-      setError('Ocorreu um erro ao buscar o usuário');
+      setSuccess(null);
+      handleApiError(e, setError, navigate);
     } finally {
       setTimeout(() => {
         setLoading(false);

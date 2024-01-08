@@ -71,14 +71,14 @@ function Payment() {
         friends.length > 0 && (
           <Pagination className={ styles.pagination }>
             <Pagination.Prev
-              className={disablePrev ? styles.pageButtonDisabled : styles.pageButton }
+              className={ disablePrev ? styles.pageButtonDisabled : styles.pageButton }
               onClick={ () => changeFriend(currIndex - 1) }
             />
             <Pagination.Next
-              className={disableNext ? styles.pageButtonDisabled : styles.pageButton }
+              className={ disableNext ? styles.pageButtonDisabled : styles.pageButton }
               onClick={ () => changeFriend(currIndex + 1) }
             />
-          </Pagination>,
+          </Pagination>
         )
       }
 

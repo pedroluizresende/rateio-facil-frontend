@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Accordion } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import { MdDelete, MdEdit } from 'react-icons/md';
+import { MdDelete } from 'react-icons/md';
 import useFriendFormatter from '../hooks/useFriendFormatter';
 import BillContext from '../context/BillContext';
 import styles from './FriendsAccordion.module.css';
