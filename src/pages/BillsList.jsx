@@ -47,7 +47,6 @@ function BillsList() {
           </section>
         </Tab>
       </Tabs>
-      <Footer />
     </main>
   );
 }
