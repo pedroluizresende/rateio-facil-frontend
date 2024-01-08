@@ -6,7 +6,6 @@ import Header from '../components/Header';
 import BillContext from '../context/BillContext';
 import BillCard from '../components/BillCard';
 import CustomSpinner from '../components/CustomSpinner';
-import Footer from '../components/Footer';
 
 function BillsList() {
   const { getAllBill, allBills, loading } = useContext(BillContext);

@@ -9,7 +9,6 @@ const apiRequest = async (url, method, data = null, config) => {
   case 'put':
     return axios.put(url, data, config);
   case 'delete':
-    console.log('delete');
     return axios.delete(url, config);
   default:
     return axios.get(url, config);
