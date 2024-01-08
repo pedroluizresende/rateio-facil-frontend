@@ -1,5 +1,10 @@
 import { useContext, useState } from 'react';
-import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import {
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+  deleteObject,
+} from 'firebase/storage';
 import { storage } from '../firebase';
 import Context from '../context/Context';
 import BillContext from '../context/BillContext';
@@ -42,7 +47,19 @@ function useUpload() {
     }
   };
 
-  return { handleUpload, imageUrl, progress };
+  const deleteImage = async (url) => {
+    const imageRef = ref(storage, url);
+
+    try {
+      await deleteObject(imageRef);
+      console.log('Imagem deletada com sucesso!');
+      setImageUrl('');
+    } catch (error) {
+      console.log('Erro ao deletar imagem!', error);
+    }
+  };
+
+  return { handleUpload, imageUrl, progress, deleteImage };
 }
 
 export default useUpload;

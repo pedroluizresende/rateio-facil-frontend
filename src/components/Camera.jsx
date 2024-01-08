@@ -53,14 +53,20 @@ function Camera({ setOpenCamera, setCurrentImage }) {
 
     // Espelhar a imagem se a câmera estiver no modo 'user'
     if (switchCamera) {
+      const SCALE_FACTOR = -1;
       context.translate(videoWidth, 0);
-      context.scale(-1, 1);
+      context.scale(SCALE_FACTOR, 1);
     }
 
     context.drawImage(video, 0, 0, videoWidth, videoHeight);
-
+    const date = new Date();
+    console.log(typeof date.getTime());
     canvas.toBlob((blob) => {
-      const file = new File([blob], 'foto.png', { type: 'image/png' });
+      const file = new File(
+        [blob],
+        `${date.getTime().toString()}.png`,
+        { type: 'image/png' },
+      );
       setCurrentImage(file);
     }, 'image/png');
 
@@ -78,7 +84,9 @@ function Camera({ setOpenCamera, setCurrentImage }) {
         className={ styles.camera }
         ref={ videoRef }
         style={ { transform: switchCamera ? 'scaleX(-1)' : 'none' } }
-      />
+      >
+        <track kind="captions" />
+      </video>
       <section className={ styles.buttons }>
         <button
           type="button"

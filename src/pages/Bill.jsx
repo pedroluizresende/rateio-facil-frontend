@@ -10,6 +10,7 @@ import useDateFormatter from '../hooks/useDateFormatter';
 import useFriendFormatter from '../hooks/useFriendFormatter';
 import FriendsAccordion from '../components/FriendsAccordion';
 import CustomSpinner from '../components/CustomSpinner';
+import useUpload from '../hooks/useUpLoad';
 
 function Bill() {
   const {
@@ -28,6 +29,8 @@ function Bill() {
   const { getFriendsName } = useFriendFormatter();
   const navigate = useNavigate();
 
+  const { deleteImage } = useUpload();
+
   const [friends, setFriends] = useState([]);
   const [addOrder, setAddOrder] = useState(false);
   const [disabled, setDisabled] = useState(true);
@@ -38,6 +41,11 @@ function Bill() {
       await getBill(billId);
       await getOrders(billId);
     }
+  };
+
+  const handleDelete = async () => {
+    if (bill.imgUrl) await deleteImage(bill.imgUrl);
+    await deleteBill(bill.id);
   };
 
   useEffect(() => {
@@ -73,20 +81,35 @@ function Bill() {
 
       {success && <span className={ styles.success }>{success}</span>}
 
-      {bill.status === 'OPEN' && (
-        <section className={ styles.buttons }>
-          <Button
-            type="button"
-            onClick={ () => navigate(`/${bill.userId}/bill/${bill.id}/calculo`) }
-            disabled={ disabled }
-          >
-            Finalizar
-          </Button>
-          <Button type="reset" onClick={ async () => deleteBill(bill.id) }>
-            Cancelar
-          </Button>
-        </section>
-      )}
+      {bill.imgUrl && <img
+        className={ styles.img }
+        src={ bill.imgUrl }
+        alt="Imagem da conta"
+      />}
+      <section className={ styles.buttons }>
+        {
+          bill.status === 'CLOSED' ? (
+            <Button type="reset" onClick={ handleDelete }>
+              Deletar
+            </Button>
+          )
+            : (
+              <>
+                <Button
+                  type="button"
+                  onClick={ () => navigate(`/${bill.userId}/bill/${bill.id}/calculo`) }
+                  disabled={ disabled }
+                >
+                  Finalizar
+                </Button>
+                <Button type="reset" onClick={ handleDelete }>
+                  Cancelar
+                </Button>
+              </>
+            )
+        }
+
+      </section>
 
       {addOrder && (
         <CreateOrderForm
@@ -96,11 +119,6 @@ function Bill() {
         />
       )}
 
-      {bill.imgUrl && <img
-        className={ styles.img }
-        src={ bill.imgUrl }
-        alt="Imagem da conta"
-      />}
     </main>
   );
 }

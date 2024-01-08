@@ -169,6 +169,34 @@ function BillProvider({ children }) {
     setLoadingTrue();
   };
 
+  const removeItem = async (billId, id, split) => {
+    setLoading(true);
+
+    let data;
+
+    if (!split) {
+      await fetchWithToken(
+        `${apiUrl}/bills/${billId}/items/${id}?split=${'true'}`,
+        'delete',
+      );
+    } else {
+      data = await fetchWithToken(
+        `${apiUrl}/bills/${billId}/items/${id}?split=${'false'}`,
+        'delete',
+      );
+    }
+
+    if (split) {
+      setOrders(data.data);
+    } else {
+      setOrders(orders.filter((item) => item.id !== id));
+    }
+    await getBill(billId);
+    setError(null);
+    setSuccess('Pedido removido com sucesso!');
+    setLoadingTrue();
+  };
+
   const value = useMemo(() => ({
     loading,
     bill,
@@ -189,6 +217,7 @@ function BillProvider({ children }) {
     setError,
     addImg,
     success,
+    removeItem,
   }), [loading, bill, error, orders, allBills, calculation, success]);
 
   return (

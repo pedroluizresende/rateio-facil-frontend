@@ -20,6 +20,8 @@ function Payment() {
   const [paidFriends, setPaidFriends] = useState([]);
   const [finished, setFinished] = useState(false);
   const [takePhoto, setTakePhoto] = useState(false);
+  const [disablePrev, setDisablePrev] = useState(false);
+  const [disableNext, setDisableNext] = useState(false);
 
   const { getFriendsName } = useFriendFormatter();
 
@@ -35,6 +37,11 @@ function Payment() {
   useEffect(() => {
     getOrders(pathname.split('/')[3]);
   }, []);
+
+  useEffect(() => {
+    setDisablePrev(currIndex === 0);
+    setDisableNext(currIndex === friends.length - 1);
+  }, [currIndex]);
 
   useEffect(() => {
     setFriends(getFriendsName(orders));
@@ -60,16 +67,20 @@ function Payment() {
         status={ paidFriends.includes(friends[currIndex]) ? 'Pago' : 'Pendente' }
         clickHandler={ clickHandler }
       />
-      <Pagination className={ styles.pagination }>
-        <Pagination.Prev
-          className={ styles.pageButton }
-          onClick={ () => changeFriend(currIndex - 1) }
-        />
-        <Pagination.Next
-          className={ styles.pageButton }
-          onClick={ () => changeFriend(currIndex + 1) }
-        />
-      </Pagination>
+      {
+        friends.length > 0 && (
+          <Pagination className={ styles.pagination }>
+            <Pagination.Prev
+              className={disablePrev ? styles.pageButtonDisabled : styles.pageButton }
+              onClick={ () => changeFriend(currIndex - 1) }
+            />
+            <Pagination.Next
+              className={disableNext ? styles.pageButtonDisabled : styles.pageButton }
+              onClick={ () => changeFriend(currIndex + 1) }
+            />
+          </Pagination>,
+        )
+      }
 
       {finished && (
         <main className={ styles.finishButton }>
